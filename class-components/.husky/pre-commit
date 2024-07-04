@@ -1,4 +1,3 @@
-cd e-commerce/
-npm run ci:format
 cd class-components/
+npm run ci:format
 npm run lint
