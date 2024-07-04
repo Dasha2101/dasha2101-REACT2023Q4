@@ -1,3 +1,0 @@
-cd class-components/
-npm run ci:format
-npm run lint
