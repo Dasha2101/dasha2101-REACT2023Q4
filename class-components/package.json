@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "ci:format": "prettier --check .",
-    "prepare": "cd ../ && husky class-components/.husky"
+    "prepare": "cd ../ && husky class-components/.husky/pre-commit"
   },
   "dependencies": {
     "react": "^18.3.1",
