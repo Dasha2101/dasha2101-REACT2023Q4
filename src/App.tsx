@@ -1,35 +1,24 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import React from 'react';
+import SearchForm from './components/serachContainer/SearhContainer';
+import SearchResult from './components/searchResult/SearchResult';
+import ErrorButton from './components/bundler/btnundler/BtnBundler';
+import ErrorBoundary from './components/bundler/Bundler';
 import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+const App: React.FC = () => {
+  const handleSearch = (query: string) => {
+    console.log('Search query:', query);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      <ErrorBoundary>
+        <SearchForm handleSearch={handleSearch} />
+        <SearchResult />
+        <ErrorButton />
+      </ErrorBoundary>
+    </div>
   );
-}
+};
 
 export default App;
