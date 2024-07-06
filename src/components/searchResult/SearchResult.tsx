@@ -1,9 +1,24 @@
-import React from 'react';
+import { Component } from 'react';
+import { SearchDataType } from '../../services/types';
 import './SearchResult.css';
 
-class SearchResult extends React.Component {
+interface SearchResultProps {
+  results: SearchDataType[];
+}
+
+class SearchResult extends Component<SearchResultProps> {
   render() {
-    return <div className="search-res"></div>;
+    const { results } = this.props;
+    return (
+      <div className="search-res">
+        {results.map((result) => (
+          <div key={result.id} className="result-item">
+            <h3>{result.name}</h3>
+            <p>{result.species}</p>
+          </div>
+        ))}
+      </div>
+    );
   }
 }
 

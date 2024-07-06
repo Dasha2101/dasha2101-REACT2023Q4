@@ -1,30 +1,43 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
+  hasError: boolean;
+  onReset: () => void;
 }
 
 interface ErrorBoundaryState {
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
+  hasError: boolean;
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { error: null, errorInfo: null };
+    this.state = { hasError: false };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-    });
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+  }
+
+  componentDidUpdate(prevProps: ErrorBoundaryProps) {
+    if (prevProps.hasError && !this.props.hasError) {
+      this.setState({ hasError: false });
+    }
   }
 
   render() {
-    if (this.state.errorInfo) {
-      return <h1>Something went wrong.</h1>;
+    if (this.state.hasError || this.props.hasError) {
+      return (
+        <div>
+          <h1>Something wrong</h1>
+          <button onClick={this.props.onReset}>Try again</button>
+        </div>
+      );
     }
     return this.props.children;
   }

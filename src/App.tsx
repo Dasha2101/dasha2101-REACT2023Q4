@@ -1,24 +1,58 @@
-import React from 'react';
+import { Component } from 'react';
 import SearchForm from './components/serachContainer/SearhContainer';
 import SearchResult from './components/searchResult/SearchResult';
 import ErrorButton from './components/bundler/btnundler/BtnBundler';
 import ErrorBoundary from './components/bundler/Bundler';
+import RickAndMortyAPI from './services/apiService/apiSevice';
+import { SearchDataType } from './services/types';
 import './App.css';
 
-const App: React.FC = () => {
-  const handleSearch = (query: string) => {
-    console.log('Search query:', query);
+interface AppState {
+  hasError: boolean;
+  searchResults: SearchDataType[];
+}
+
+class App extends Component<AppState> {
+  state: AppState = {
+    hasError: false,
+    searchResults: [],
   };
 
-  return (
-    <div className="App">
-      <ErrorBoundary>
-        <SearchForm handleSearch={handleSearch} />
-        <SearchResult />
-        <ErrorButton />
-      </ErrorBoundary>
-    </div>
-  );
-};
+  handleSearch = async (query: string) => {
+    try {
+      const results = await RickAndMortyAPI.fetchSearchResults(query);
+      this.setState({ searchResults: results });
+    } catch (error) {
+      this.setState({ hasError: true });
+    }
+  };
+
+  handleError = () => {
+    this.setState({ hasError: true });
+  };
+
+  handleReset = () => {
+    this.setState({ hasError: false });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <ErrorBoundary
+          hasError={this.state.hasError}
+          onReset={this.handleReset}
+        >
+          {!this.state.hasError && (
+            <>
+              <SearchForm handleSearch={this.handleSearch} />
+              <SearchResult results={this.state.searchResults} />
+            </>
+          )}
+          <ErrorButton onError={this.handleError} />
+        </ErrorBoundary>
+      </div>
+    );
+  }
+}
 
 export default App;
