@@ -1,10 +1,6 @@
 import { Component } from 'react';
-import { SearchDataType } from '../../services/types';
+import { SearchResultProps } from './types';
 import './SearchResult.css';
-
-interface SearchResultProps {
-  results: SearchDataType[];
-}
 
 class SearchResult extends Component<SearchResultProps> {
   render() {

@@ -19,9 +19,6 @@ class ErrorButton extends Component<ErrorButtonProps> {
   };
 
   render() {
-    if (this.state.hasError) {
-      return <h1>Something wrong</h1>;
-    }
     return <button onClick={this.throwError}>Throw Error</button>;
   }
 }

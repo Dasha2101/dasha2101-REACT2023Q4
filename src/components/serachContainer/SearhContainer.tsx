@@ -1,14 +1,6 @@
 import { Component, ChangeEvent, FormEvent } from 'react';
+import { SearchFormProps, SearchFormState } from './types';
 import './SearchContainer.css';
-
-interface SearchFormProps {
-  handleSearch: (query: string) => void;
-  query: string;
-}
-
-interface SearchFormState {
-  query: string;
-}
 
 class SearchForm extends Component<SearchFormProps, SearchFormState> {
   constructor(props: SearchFormProps) {

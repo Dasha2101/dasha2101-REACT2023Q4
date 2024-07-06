@@ -4,19 +4,12 @@ import SearchResult from './components/searchResult/SearchResult';
 import ErrorButton from './components/bundler/btnundler/BtnBundler';
 import ErrorBoundary from './components/bundler/Bundler';
 import RickAndMortyAPI from './services/apiService/apiSevice';
-import { SearchDataType } from './services/types';
+import { AppProps, AppState } from '.';
 import Loading from './components/loading/Loading';
 import './App.css';
 
-interface AppProps {}
-
-interface AppState {
-  hasError: boolean;
-  errorMessage: string;
-  searchResults: SearchDataType[];
-  isLoading: boolean;
-  query: string;
-}
+const GENERIC_ERROR_MESSAGE = 'An unexpected error occurred';
+const SPECIFIC_ERROR_MESSAGE = 'This is an error';
 
 class App extends Component<AppProps, AppState> {
   state: AppState = {
@@ -29,15 +22,13 @@ class App extends Component<AppProps, AppState> {
 
   handleSearch = async (query: string) => {
     this.setState({ isLoading: true });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     try {
       const results = await RickAndMortyAPI.fetchSearchResults(query);
       this.setState({ searchResults: results, isLoading: false });
     } catch (error) {
-      let errorMessage = 'error';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
+      const errorMessage =
+        error instanceof Error ? error.message : GENERIC_ERROR_MESSAGE;
       this.setState({
         hasError: true,
         isLoading: false,
@@ -45,9 +36,8 @@ class App extends Component<AppProps, AppState> {
       });
     }
   };
-
   handleError = () => {
-    this.setState({ hasError: true, errorMessage: 'This is an error' });
+    this.setState({ hasError: true, errorMessage: SPECIFIC_ERROR_MESSAGE });
   };
 
   handleReset = () => {
@@ -59,28 +49,28 @@ class App extends Component<AppProps, AppState> {
   };
 
   render() {
+    const { hasError, errorMessage, isLoading, searchResults, query } =
+      this.state;
+
     return (
       <div className="App">
         <h1>Rick and Morty</h1>
         <ErrorBoundary
-          hasError={this.state.hasError}
-          errorMessage={this.state.errorMessage}
+          hasError={hasError}
+          errorMessage={errorMessage}
           onReset={this.handleReset}
         >
           <ErrorButton
             onError={this.handleError}
             onResetSearch={this.resetSearch}
           />
-          {!this.state.hasError && (
+          {!hasError && (
             <>
-              <SearchForm
-                handleSearch={this.handleSearch}
-                query={this.state.query}
-              />
-              {this.state.isLoading ? (
+              <SearchForm handleSearch={this.handleSearch} query={query} />
+              {isLoading ? (
                 <Loading />
               ) : (
-                <SearchResult results={this.state.searchResults} />
+                <SearchResult results={searchResults} />
               )}
             </>
           )}
@@ -89,5 +79,4 @@ class App extends Component<AppProps, AppState> {
     );
   }
 }
-
 export default App;
