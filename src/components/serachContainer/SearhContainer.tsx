@@ -1,8 +1,9 @@
-import React, { Component, ChangeEvent, FormEvent } from 'react';
+import { Component, ChangeEvent, FormEvent } from 'react';
 import './SearchContainer.css';
 
 interface SearchFormProps {
   handleSearch: (query: string) => void;
+  query: string;
 }
 
 interface SearchFormState {
@@ -13,7 +14,7 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
   constructor(props: SearchFormProps) {
     super(props);
     this.state = {
-      query: '',
+      query: props.query,
     };
   }
 

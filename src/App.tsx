@@ -8,47 +8,75 @@ import { SearchDataType } from './services/types';
 import Loading from './components/loading/Loading';
 import './App.css';
 
+interface AppProps {}
+
 interface AppState {
   hasError: boolean;
+  errorMessage: string;
   searchResults: SearchDataType[];
   isLoading: boolean;
+  query: string;
 }
 
-class App extends Component<AppState> {
+class App extends Component<AppProps, AppState> {
   state: AppState = {
     hasError: false,
+    errorMessage: '',
     searchResults: [],
     isLoading: false,
+    query: '',
   };
 
   handleSearch = async (query: string) => {
     this.setState({ isLoading: true });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const results = await RickAndMortyAPI.fetchSearchResults(query);
       this.setState({ searchResults: results, isLoading: false });
     } catch (error) {
-      this.setState({ hasError: true, isLoading: false });
+      let errorMessage = 'error';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      this.setState({
+        hasError: true,
+        isLoading: false,
+        errorMessage,
+      });
     }
   };
 
   handleError = () => {
-    this.setState({ hasError: true });
+    this.setState({ hasError: true, errorMessage: 'This is an error' });
   };
 
   handleReset = () => {
-    this.setState({ hasError: false });
+    this.setState({ hasError: false, errorMessage: '' });
+  };
+
+  resetSearch = () => {
+    this.setState({ query: '', searchResults: [] });
   };
 
   render() {
     return (
       <div className="App">
+        <h1>Rick and Morty</h1>
         <ErrorBoundary
           hasError={this.state.hasError}
+          errorMessage={this.state.errorMessage}
           onReset={this.handleReset}
         >
+          <ErrorButton
+            onError={this.handleError}
+            onResetSearch={this.resetSearch}
+          />
           {!this.state.hasError && (
             <>
-              <SearchForm handleSearch={this.handleSearch} />
+              <SearchForm
+                handleSearch={this.handleSearch}
+                query={this.state.query}
+              />
               {this.state.isLoading ? (
                 <Loading />
               ) : (
@@ -56,7 +84,6 @@ class App extends Component<AppState> {
               )}
             </>
           )}
-          <ErrorButton onError={this.handleError} />
         </ErrorBoundary>
       </div>
     );

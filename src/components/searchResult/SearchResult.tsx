@@ -15,6 +15,8 @@ class SearchResult extends Component<SearchResultProps> {
           <div key={result.id} className="result-item">
             <h3>{result.name}</h3>
             <p>{result.species}</p>
+            <p>{result.gender}</p>
+            <img src={result.image} alt={result.name} />
           </div>
         ))}
       </div>

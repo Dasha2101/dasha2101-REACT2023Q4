@@ -3,6 +3,7 @@ import { Component, ReactNode } from 'react';
 interface ErrorBoundaryProps {
   children: ReactNode;
   hasError: boolean;
+  errorMessage: string;
   onReset: () => void;
 }
 
@@ -34,7 +35,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError || this.props.hasError) {
       return (
         <div>
-          <h1>Something wrong</h1>
+          <h1>Something went wrong</h1>
+          <p>{this.props.errorMessage}</p>
           <button onClick={this.props.onReset}>Try again</button>
         </div>
       );
