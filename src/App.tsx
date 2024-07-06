@@ -5,25 +5,29 @@ import ErrorButton from './components/bundler/btnundler/BtnBundler';
 import ErrorBoundary from './components/bundler/Bundler';
 import RickAndMortyAPI from './services/apiService/apiSevice';
 import { SearchDataType } from './services/types';
+import Loading from './components/loading/Loading';
 import './App.css';
 
 interface AppState {
   hasError: boolean;
   searchResults: SearchDataType[];
+  isLoading: boolean;
 }
 
 class App extends Component<AppState> {
   state: AppState = {
     hasError: false,
     searchResults: [],
+    isLoading: false,
   };
 
   handleSearch = async (query: string) => {
+    this.setState({ isLoading: true });
     try {
       const results = await RickAndMortyAPI.fetchSearchResults(query);
-      this.setState({ searchResults: results });
+      this.setState({ searchResults: results, isLoading: false });
     } catch (error) {
-      this.setState({ hasError: true });
+      this.setState({ hasError: true, isLoading: false });
     }
   };
 
@@ -45,7 +49,11 @@ class App extends Component<AppState> {
           {!this.state.hasError && (
             <>
               <SearchForm handleSearch={this.handleSearch} />
-              <SearchResult results={this.state.searchResults} />
+              {this.state.isLoading ? (
+                <Loading />
+              ) : (
+                <SearchResult results={this.state.searchResults} />
+              )}
             </>
           )}
           <ErrorButton onError={this.handleError} />
