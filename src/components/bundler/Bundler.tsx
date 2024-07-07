@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ErrorInfo } from 'react';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -12,7 +12,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
   }
 
@@ -28,12 +28,17 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         <div>
           <h1>Something went wrong</h1>
           <p>{this.props.errorMessage}</p>
-          <button onClick={this.props.onReset}>Try again</button>
+          <button
+            onClick={() => {
+              this.props.onReset();
+            }}
+          >
+            Try again
+          </button>
         </div>
       );
     }
     return this.props.children;
   }
 }
-
 export default ErrorBoundary;

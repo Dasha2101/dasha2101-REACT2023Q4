@@ -8,4 +8,7 @@ export interface AppState {
   searchResults: SearchDataType[];
   isLoading: boolean;
   query: string;
+  page: number;
+  errorReset: boolean;
+  lastSearchSuccessful: boolean;
 }

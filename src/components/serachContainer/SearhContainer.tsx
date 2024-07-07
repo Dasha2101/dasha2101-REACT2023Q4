@@ -7,24 +7,47 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
     super(props);
     this.state = {
       query: props.query,
+      inputValue: '',
+      errorReset: false,
     };
   }
 
   componentDidMount() {
     const savedQuery = localStorage.getItem('searchQuery');
     if (savedQuery) {
-      this.setState({ query: savedQuery });
+      this.setState({ query: savedQuery, inputValue: savedQuery });
+      this.props.handleSearch(savedQuery);
+    } else {
+      this.props.handleSearch('');
+    }
+  }
+
+  componentDidUpdate(_: SearchFormProps, prevState: SearchFormState) {
+    if (this.state.query !== prevState.query && !this.state.errorReset) {
+      this.props.handleSearch(this.state.query);
+    } else if (this.state.errorReset) {
+      this.setState({ errorReset: false });
     }
   }
 
   handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ query: e.target.value });
+    this.setState({ inputValue: e.target.value });
   };
 
   handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.props.handleSearch(this.state.query);
-    localStorage.setItem('searchQuery', this.state.query);
+    this.setState({ query: this.state.inputValue }, () => {
+      this.setState({ errorReset: false });
+      localStorage.setItem('searchQuery', this.state.inputValue);
+    });
+    this.props.handleTryAgain();
+    this.props.handleSearch(this.state.inputValue);
+  };
+
+  handleReset = () => {
+    this.setState({ errorReset: true, inputValue: '' });
+    localStorage.removeItem('searchQuery');
+    this.props.handleReset();
   };
 
   render() {
@@ -33,7 +56,7 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
         <input
           className="input"
           type="text"
-          value={this.state.query}
+          value={this.state.inputValue}
           onChange={this.handleChange}
           placeholder="Enter search query"
         />
