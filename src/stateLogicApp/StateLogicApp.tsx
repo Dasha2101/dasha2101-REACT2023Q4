@@ -70,8 +70,11 @@ export const handleReset = (component: Component<AppProps, AppState>) => {
   );
 };
 
-export const handleError = (component: Component<AppProps, AppState>) => {
-  component.setState({ hasError: true, errorMessage: 'This is an error' });
+export const handleError = (
+  component: Component<AppProps, AppState>,
+  errorMessage: string = 'This is an error'
+) => {
+  component.setState({ hasError: true, errorMessage });
 };
 
 export const handleTryAgain = (component: Component<AppProps, AppState>) => {
