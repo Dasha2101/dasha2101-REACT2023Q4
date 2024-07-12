@@ -11,4 +11,5 @@ export interface AppState {
   page: number;
   errorReset: boolean;
   lastSearchSuccessful: boolean;
+  lastSearchQuery: string;
 }

@@ -1,58 +1,67 @@
-import { Component } from 'react';
-import SearchForm from './components/serachContainer/SearhContainer';
+import React, { useEffect, useRef } from 'react';
+import SearchComponent from './components/serachContainer/SearhContainer';
 import SearchResult from './components/searchResult/SearchResult';
-import ErrorButton from './components/bundler/btnundler/BtnBundler';
-import ErrorBoundary from './components/bundler/Bundler';
 import Loading from './components/loading/Loading';
-import {
-  handleSearch,
-  handleReset,
-  handleError,
-  handleTryAgain,
-} from './stateLogicApp/StateLogicApp';
-import { AppProps, AppState } from '.';
+import ErrorBoundary from './components/bundler/Bundler';
+import useSearchAndFetch from './hooks/useStateApp';
+
 import './App.css';
 
-class App extends Component<AppProps, AppState> {
-  state: AppState = {
-    hasError: false,
-    errorMessage: '',
-    searchResults: [],
-    isLoading: false,
-    query: '',
-    page: 1,
-    errorReset: false,
-    lastSearchSuccessful: false,
-  };
+const App: React.FC = () => {
+  const {
+    isLoading,
+    error,
+    searchResults,
+    showResults,
+    lastSearchQuery,
+    fetchAllResults,
+    handleSearch,
+    handleResetSearch,
+  } = useSearchAndFetch();
 
-  render() {
-    const { hasError, errorMessage, isLoading, searchResults, query } =
-      this.state;
+  const stableHandleSearch = useRef(handleSearch);
+  const stableFetchAllResults = useRef(fetchAllResults);
 
-    return (
-      <ErrorBoundary
-        hasError={hasError}
-        errorMessage={errorMessage}
-        onReset={() => handleReset(this)}
-      >
-        <div className="search-section">
-          <h1>Rick and Morty</h1>
-          <ErrorButton onError={() => handleError(this)} />
-          {!hasError && (
-            <SearchForm
-              handleSearch={(query) => handleSearch(this, query)}
-              query={query}
-              handleReset={() => handleReset(this)}
-              handleTryAgain={() => handleTryAgain(this)}
-            />
+  useEffect(() => {
+    const lastSearchQuery = localStorage.getItem('lastSearchQuery');
+    if (lastSearchQuery) {
+      stableHandleSearch.current(lastSearchQuery);
+    } else {
+      stableFetchAllResults.current();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (error && lastSearchQuery) {
+      stableHandleSearch.current(lastSearchQuery);
+    }
+  }, [error, lastSearchQuery]);
+
+  return (
+    <ErrorBoundary
+      hasError={!!error}
+      errorMessage={error || ''}
+      onReset={handleResetSearch}
+    >
+      <div className="app-container">
+        <h1>Rick and Morty</h1>
+        <SearchComponent
+          onSearch={handleSearch}
+          resetSearch={handleResetSearch}
+        />
+        <div className="results-section">
+          {isLoading && <Loading />}
+          {!isLoading && showResults && (
+            <SearchResult results={searchResults} />
+          )}
+          {!isLoading && !showResults && (
+            <div className="empty-results">Sorry, no results were found</div>
           )}
         </div>
-        <div className="results-section">
-          {isLoading ? <Loading /> : <SearchResult results={searchResults} />}
-        </div>
-      </ErrorBoundary>
-    );
-  }
-}
+        {error && <p>{error}</p>}
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
