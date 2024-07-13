@@ -38,8 +38,10 @@ const useSearchAndFetch = () => {
   };
 
   const handleSearch = async (query: string) => {
+    setLastSearchQuery(query);
     setIsLoading(true);
     setShowResults(false);
+    setLastSearchQuery(query);
     try {
       const results = await RickAndMortyAPI.fetchSearchResults(query);
       setSearchResults(results);
@@ -48,7 +50,6 @@ const useSearchAndFetch = () => {
         setShowResults(true);
         setError(null);
       }, 1000);
-      setLastSearchQuery(query);
     } catch (error) {
       setError('Error while performing search');
       setIsLoading(false);
@@ -64,7 +65,6 @@ const useSearchAndFetch = () => {
       setShowResults(false);
       setError(null);
     }, 1000);
-    setLastSearchQuery('');
   };
 
   return {
