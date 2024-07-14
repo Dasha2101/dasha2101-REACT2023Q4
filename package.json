@@ -12,8 +12,7 @@
     "format:fix": "prettier --write .",
     "ci:format": "prettier --check .",
     "prepare": "husky",
-    "test": "vitest",
-    "coverage": "nyc vitest run --coverage"
+    "test": "vitest"
   },
   "dependencies": {
     "react": "^18.3.1",
