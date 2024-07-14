@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import { RickAndMortyAPI } from '../services/apiService/apiSevice';
 import { SearchDataType } from '../services/types';
 
 interface UsePaginationProps {
@@ -17,7 +16,6 @@ const usePagination = ({
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [results, setResults] = useState<SearchDataType[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
   const totalPages = Math.ceil(initialData.length / itemsPerPage);
 
   useEffect(() => {
@@ -46,7 +44,6 @@ const usePagination = ({
       currentPage * itemsPerPage
     ),
     isLoading,
-    // error,
     currentPage,
     totalPages,
     nextPage,

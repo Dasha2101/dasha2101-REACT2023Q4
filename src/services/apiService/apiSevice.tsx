@@ -25,13 +25,13 @@ export const RickAndMortyAPI = {
     return data.results;
   },
 
-  fetchCharacter: async (id: number): Promise<SearchDataType> => {
+  fetchCharacter: async (id: number) => {
     const url = `${BASE_URL}/${id}`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch character details');
     }
-    const character = (await response.json()) as SearchDataType;
+    const character = await response.json();
     return character;
   },
 };

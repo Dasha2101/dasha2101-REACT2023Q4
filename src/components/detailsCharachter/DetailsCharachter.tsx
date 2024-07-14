@@ -1,29 +1,40 @@
 import React from 'react';
-import { SearchDataType } from '../../services/types';
+import Loading from '../loading/Loading';
+import useCharacterDetails from '../../hooks/useCharacterDetails';
+import { UseCharacterDetailsProps } from './types';
+import './DetailsCharachter.css';
 
-interface DetailsComponentProps {
-  item: SearchDataType;
-  onClose: () => void;
-}
-
-const DetailsComponent: React.FC<DetailsComponentProps> = ({
-  item,
+const DetailsComponent: React.FC<UseCharacterDetailsProps> = ({
+  id,
   onClose,
 }) => {
+  const { isLoading, character, handleClose } = useCharacterDetails({
+    id,
+    onClose,
+  });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!character) {
+    return <div>Error loading character details</div>;
+  }
+
   return (
     <div className="details-panel">
       <h2>Character Details</h2>
       <div className="details-content">
-        <img src={item.image} alt={item.name} />
+        <img src={character.image} alt={character.name} />
         <div>
-          <p>Name: {item.name}</p>
-          <p>Status:{item.status}</p>
-          <p>Species:{item.species}</p>
-          <p>Type:{item.type || 'N/A'}</p>
-          <p>Gender:{item.gender}</p>
+          <p>Name: {character.name}</p>
+          <p>Status: {character.status}</p>
+          <p>Species: {character.species}</p>
+          <p>Type: {character.type || 'N/A'}</p>
+          <p>Gender: {character.gender}</p>
         </div>
       </div>
-      <button onClick={onClose}>Close Details</button>
+      <button onClick={handleClose}>Close Details</button>
     </div>
   );
 };

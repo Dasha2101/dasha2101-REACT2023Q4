@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-.pagination button {
+.pagination a {
   margin-right: 5px;
   padding: 5px 10px;
   font-size: 14px;
@@ -11,15 +11,16 @@
   border: 1px solid #ccc;
   background-color: #fff;
   color: #333;
+  border-radius: 5px;
 }
 
-.pagination button.active {
+.pagination a.active {
   font-weight: bold;
   background-color: #7d40e7;
   color: #fff;
   border: 1px solid #7d40e7;
 }
 
-.pagination button:hover {
+.pagination a:hover {
   background-color: #f0f0f0;
 }

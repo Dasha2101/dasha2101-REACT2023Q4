@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { RickAndMortyAPI } from '../services/apiService/apiSevice';
 import { SearchDataType } from '../services/types';
 import useLocalStorage from './useLocalStorage';
@@ -13,49 +13,51 @@ const useSearchAndFetch = () => {
     ''
   );
 
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('lastSearchQuery', lastSearchQuery);
-    };
-  }, [lastSearchQuery]);
+  const updateSearchResults = (results: SearchDataType[]) => {
+    setSearchResults(results);
+    setTimeout(() => {
+      setIsLoading(false);
+      setShowResults(true);
+    }, 1000);
+  };
 
-  const fetchAllResults = async () => {
+  const fetchAllResults = useCallback(async () => {
     setIsLoading(true);
     setShowResults(false);
     try {
       const results = await RickAndMortyAPI.fetchAllResults();
-      setSearchResults(results);
-      setTimeout(() => {
-        setIsLoading(false);
-        setShowResults(true);
-        setError(null);
-        setLastSearchQuery('');
-      }, 1000);
+      updateSearchResults(results);
     } catch (error) {
       setError('Error loading data');
       setIsLoading(false);
+      setShowResults(false);
     }
-  };
+  }, []);
 
-  const handleSearch = async (query: string) => {
-    setLastSearchQuery(query);
-    setIsLoading(true);
-    setShowResults(false);
-    setLastSearchQuery(query);
-    try {
-      const results = await RickAndMortyAPI.fetchSearchResults(query);
-      setSearchResults(results);
-      setTimeout(() => {
+  const handleSearch = useCallback(
+    async (query: string) => {
+      setIsLoading(true);
+      setShowResults(false);
+      try {
+        const results = await RickAndMortyAPI.fetchSearchResults(query);
+        updateSearchResults(results);
+        setLastSearchQuery(query);
+      } catch (error) {
+        setError('Error while performing search');
         setIsLoading(false);
-        setShowResults(true);
-        setError(null);
-      }, 1000);
-    } catch (error) {
-      setError('Error while performing search');
-      setIsLoading(false);
-      setShowResults(true);
+        setShowResults(false);
+      }
+    },
+    [setIsLoading, setShowResults, setLastSearchQuery]
+  );
+
+  useEffect(() => {
+    if (lastSearchQuery) {
+      handleSearch(lastSearchQuery);
+    } else {
+      fetchAllResults();
     }
-  };
+  }, [handleSearch, fetchAllResults, lastSearchQuery]);
 
   const handleResetSearch = () => {
     setIsLoading(true);

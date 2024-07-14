@@ -1,50 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SearchDataType } from '../../services/types';
 import './SearchResult.css';
 import Pagination from '../pagination/Pagination';
 import usePagination from '../../hooks/usePagination';
-// import Loading from '../loading/Loading';
-import { RickAndMortyAPI } from '../../services/apiService/apiSevice';
-import DetailsComponent from '../detailsCharachter/DetailsCharachter';
+import { useNavigate } from 'react-router-dom';
+import { SearchResultProps } from './types';
 
-interface SearchResultProps {
-  results: SearchDataType[];
-}
-
-const SearchResult: React.FC<SearchResultProps> = ({ results }) => {
-  const { currentPage, totalPages, setCurrentPage, isLoading } = usePagination({
-    initialPage: 1,
+const SearchResult: React.FC<SearchResultProps> = ({
+  results,
+  onItemClick,
+  currentPage,
+}) => {
+  const itemsPerPage = 5;
+  const { setCurrentPage } = usePagination({
+    initialPage: currentPage,
     itemsPerPage: 5,
     initialData: results,
   });
 
-  const [selectedItem, setSelectedItem] = useState<SearchDataType | null>(null);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedResults = results.slice(startIndex, startIndex + itemsPerPage);
+  const navigate = useNavigate();
 
-  const handleItemClick = async (index: number) => {
-    const selectedId = index;
-    try {
-      const character = await RickAndMortyAPI.fetchCharacter(selectedId);
-      setSelectedItem(character);
-    } catch (error) {
-      console.error('Error fetching details:', error);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    const nextPageUrl = page === 1 ? '/search' : `/search/${page}`;
+    navigate(nextPageUrl);
   };
 
-  const handleCloseDetails = () => {
-    setSelectedItem(null);
+  const handleItemClick = (id: string) => {
+    onItemClick(id, currentPage);
   };
-
-  const startIndex = (currentPage - 1) * 5;
-  const paginatedResults = results.slice(startIndex, startIndex + 5);
 
   return (
     <div className="search-res">
-      <div className="left-panel">
+      <div className="panel">
         {paginatedResults.map((result: SearchDataType) => (
           <div
             key={result.id}
             className="result-item"
-            onClick={() => handleItemClick(result.id)}
+            onClick={() => handleItemClick(String(result.id))}
           >
             <h3>{result.name}</h3>
             <img src={result.image} alt={result.name} />
@@ -52,15 +47,9 @@ const SearchResult: React.FC<SearchResultProps> = ({ results }) => {
         ))}
         <Pagination
           currentPage={currentPage}
-          total={totalPages}
-          pageChange={(page) => setCurrentPage(page)}
+          total={Math.ceil(results.length / itemsPerPage)}
+          onChangePage={handlePageChange}
         />
-      </div>
-      <div className="right-panel">
-        {/* {isLoading && <Loading />} */}
-        {selectedItem && !isLoading && (
-          <DetailsComponent item={selectedItem} onClose={handleCloseDetails} />
-        )}
       </div>
     </div>
   );
