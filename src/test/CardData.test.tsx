@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
 import { describe, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import SearchResult from '../components/searchResult/SearchResult';
 import { SearchDataType } from '../services/types';
@@ -12,8 +12,8 @@ const mockResults: Partial<SearchDataType>[] = [
   { id: 5, name: 'Jerry Smith', image: 'image5.jpg' },
 ];
 
-describe('Card List component', () => {
-  it('displays correct number of cards', () => {
+describe('Card', () => {
+  it('displays correct number of cards and renders their data', () => {
     render(
       <BrowserRouter>
         <SearchResult
@@ -26,5 +26,21 @@ describe('Card List component', () => {
 
     const cards = screen.getAllByTestId('result-item');
     expect(cards.length).toBe(mockResults.length);
+
+    mockResults.forEach((result) => {
+      const cardName = screen.getByText(result.name ?? '');
+      if (!cardName) {
+        throw new Error('No find name');
+      }
+      const cardImage = screen.getByAltText(result.name ?? '');
+      if (!cardImage) {
+        throw new Error('No find img');
+      }
+      if (typeof cardImage !== 'string') {
+        expect((cardImage as HTMLImageElement).src).toContain(
+          result.image ?? ''
+        );
+      }
+    });
   });
 });

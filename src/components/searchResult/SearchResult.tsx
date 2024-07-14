@@ -41,6 +41,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
               key={result.id}
               className="result-item"
               onClick={() => handleItemClick(String(result.id))}
+              data-testid="result-item"
             >
               <h3>{result.name}</h3>
               <img src={result.image} alt={result.name} />
