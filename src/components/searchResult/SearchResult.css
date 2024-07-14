@@ -7,7 +7,7 @@
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   gap: 20px;
 }
 
@@ -17,7 +17,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.2s;
-  width: 200px;
   text-align: center;
   color: #00ff00;
 }
