@@ -78,7 +78,7 @@ const SearchPage = () => {
             />
           )}
           {!isLoading && !showResults && (
-            <div className="empty-results">Sorry, no results were found</div>
+            <div className="empty-results">Sorry results no found</div>
           )}
         </div>
         {selectedId && (
