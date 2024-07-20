@@ -2,13 +2,20 @@
   border: 2px solid #00ff00;
   padding: 20px;
   margin: 10px;
-  background-color: #222;
   min-width: 550px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 20px;
+}
+
+.dark-theme .search-res .result-item {
+  background-color: #fff;
+}
+
+.light-theme .search-res .result-item {
+  background-color: #222;
 }
 
 .result-item {

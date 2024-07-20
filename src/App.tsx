@@ -1,16 +1,19 @@
+import React from 'react';
 import RouterComponent from './router/Router';
 import store from './redux/store';
 import { Provider } from 'react-redux';
-
-import './App.css';
+import { ThemeProvider } from './components/themeContext/ThemeContext';
+import ThemedContainer from './components/themeContainer/ThemeContainer';
 
 const App: React.FC = () => {
   return (
-    <div className="app-container">
-      <Provider store={store}>
-        <RouterComponent />
-      </Provider>
-    </div>
+    <Provider store={store}>
+      <ThemeProvider>
+        <ThemedContainer>
+          <RouterComponent />
+        </ThemedContainer>
+      </ThemeProvider>
+    </Provider>
   );
 };
 

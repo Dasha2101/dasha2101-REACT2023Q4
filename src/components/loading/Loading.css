@@ -1,11 +1,19 @@
 .loading {
-  border: 16px solid #282828;
-  border-top: 16px solid #00ff00;
   border-radius: 50%;
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
   margin: 0 auto;
+}
+
+.dark-theme .loading {
+  border: 16px solid #fff;
+  border-top: 16px solid #00ff00;
+}
+
+.light-theme .loading {
+  border: 16px solid #282828;
+  border-top: 16px solid #00ff00;
 }
 
 @keyframes spin {
