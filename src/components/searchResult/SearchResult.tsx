@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchDataType } from '../../services/types';
 import Pagination from '../pagination/Pagination';
 import usePagination from '../../hooks/usePagination';
 import { useNavigate } from 'react-router-dom';
 import { SearchResultProps } from './types';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import Popup from '../popupProps/PopupProps';
 import './SearchResult.css';
 
 const SearchResult: React.FC<SearchResultProps> = ({
@@ -17,6 +20,8 @@ const SearchResult: React.FC<SearchResultProps> = ({
     itemsPerPage: 5,
     initialData: results,
   });
+
+  const [selectedCount, setSelectedCount] = useState(0);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedResults = results.slice(startIndex, startIndex + itemsPerPage);
@@ -32,6 +37,29 @@ const SearchResult: React.FC<SearchResultProps> = ({
     onItemClick(id, currentPage);
   };
 
+  const dispatch = useDispatch();
+  const characters = useSelector(
+    (state: RootState) => state.character.characters
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id = Number(e.target.value); // Преобразование значения в число
+    if (e.target.checked) {
+      dispatch({ type: 'ADD_CHARACTER', payload: id });
+    } else {
+      dispatch({ type: 'REMOVE_CHARACTER', payload: id });
+    }
+  };
+
+  useEffect(() => {
+    setSelectedCount(characters.length);
+  }, [characters]);
+
+  const handleClearAll = () => {
+    dispatch({ type: 'CLEAR_ALL_CHARACTERS' });
+    setSelectedCount(0);
+  };
+
   return (
     <div className="search-res">
       <div className="panel">
@@ -45,6 +73,13 @@ const SearchResult: React.FC<SearchResultProps> = ({
             >
               <h3>{result.name}</h3>
               <img src={result.image} alt={result.name} />
+              <input
+                type="checkbox"
+                name="character"
+                onChange={handleChange}
+                value={result.id}
+                checked={characters.includes(result.id)}
+              />
             </div>
           ))
         ) : (
@@ -56,7 +91,15 @@ const SearchResult: React.FC<SearchResultProps> = ({
           onChangePage={handlePageChange}
         />
       </div>
+      {selectedCount > 0 && (
+        <Popup
+          isVisible={true}
+          selectedCount={selectedCount}
+          onClearAll={handleClearAll}
+        />
+      )}
     </div>
   );
 };
+
 export default SearchResult;
