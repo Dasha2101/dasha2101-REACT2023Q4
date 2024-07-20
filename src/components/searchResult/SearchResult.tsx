@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { SearchResultProps } from './types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import useDownloadCSV from '../../hooks/useDownloadCSV';
 import Popup from '../popupProps/PopupProps';
 import './SearchResult.css';
 
@@ -43,7 +44,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const id = Number(e.target.value); // Преобразование значения в число
+    const id = Number(e.target.value);
     if (e.target.checked) {
       dispatch({ type: 'ADD_CHARACTER', payload: id });
     } else {
@@ -59,6 +60,8 @@ const SearchResult: React.FC<SearchResultProps> = ({
     dispatch({ type: 'CLEAR_ALL_CHARACTERS' });
     setSelectedCount(0);
   };
+
+  const { handleDownloadCSV } = useDownloadCSV(results, characters);
 
   return (
     <div className="search-res">
@@ -96,6 +99,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
           isVisible={true}
           selectedCount={selectedCount}
           onClearAll={handleClearAll}
+          onDownload={handleDownloadCSV}
         />
       )}
     </div>

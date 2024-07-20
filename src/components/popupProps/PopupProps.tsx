@@ -5,12 +5,14 @@ interface PopupProps {
   isVisible: boolean;
   selectedCount: number;
   onClearAll: () => void;
+  onDownload: () => void;
 }
 
 const Popup: React.FC<PopupProps> = ({
   isVisible,
   selectedCount,
   onClearAll,
+  onDownload,
 }) => {
   if (!isVisible) return null;
 
@@ -19,7 +21,7 @@ const Popup: React.FC<PopupProps> = ({
       <p>{`Выбрано ${selectedCount} элемент${selectedCount > 1 ? 'a' : ''}`}</p>
       <div className="popup-buttons">
         <button onClick={onClearAll}>Delete all</button>
-        <button>Download</button>
+        <button onClick={onDownload}>Download</button>
       </div>
     </div>
   );
