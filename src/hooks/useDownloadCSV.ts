@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { saveAs } from 'file-saver';
 import { SearchDataType } from '../services/types';
 
 const useDownloadCSV = (results: SearchDataType[], selectedIds: number[]) => {
@@ -7,24 +8,17 @@ const useDownloadCSV = (results: SearchDataType[], selectedIds: number[]) => {
       selectedIds.includes(result.id)
     );
 
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      ['Name,Species,Gender,Status,Type']
-        .concat(
-          selectedItems.map(
-            (item) =>
-              `${item.name},${item.species},${item.gender},${item.status},${item.type}`
-          )
+    const csvContent = ['Name, Species, Gender, Status, Type']
+      .concat(
+        selectedItems.map(
+          (item) =>
+            `${item.name},${item.species},${item.gender},${item.status},${item.type}`
         )
-        .join('\n');
+      )
+      .join('\n');
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${selectedItems.length}_items.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, `${selectedItems.length}_characters.csv`);
   }, [results, selectedIds]);
 
   return { handleDownloadCSV };

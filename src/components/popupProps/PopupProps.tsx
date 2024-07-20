@@ -18,7 +18,7 @@ const Popup: React.FC<PopupProps> = ({
 
   return (
     <div className="popup">
-      <p>{`Выбрано ${selectedCount} элемент${selectedCount > 1 ? 'a' : ''}`}</p>
+      <p>{`Choose ${selectedCount} elements${selectedCount > 1 ? 'a' : ''}`}</p>
       <div className="popup-buttons">
         <button onClick={onClearAll}>Delete all</button>
         <button onClick={onDownload}>Download</button>

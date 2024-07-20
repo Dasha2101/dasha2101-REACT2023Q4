@@ -4,8 +4,7 @@ import Pagination from '../pagination/Pagination';
 import usePagination from '../../hooks/usePagination';
 import { useNavigate } from 'react-router-dom';
 import { SearchResultProps } from './types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import useCharacterSelection from '../../hooks/useSelectCharacter';
 import useDownloadCSV from '../../hooks/useDownloadCSV';
 import Popup from '../popupProps/PopupProps';
 import './SearchResult.css';
@@ -23,7 +22,6 @@ const SearchResult: React.FC<SearchResultProps> = ({
   });
 
   const [selectedCount, setSelectedCount] = useState(0);
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedResults = results.slice(startIndex, startIndex + itemsPerPage);
   const navigate = useNavigate();
@@ -38,30 +36,17 @@ const SearchResult: React.FC<SearchResultProps> = ({
     onItemClick(id, currentPage);
   };
 
-  const dispatch = useDispatch();
-  const characters = useSelector(
-    (state: RootState) => state.character.characters
-  );
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const id = Number(e.target.value);
-    if (e.target.checked) {
-      dispatch({ type: 'ADD_CHARACTER', payload: id });
-    } else {
-      dispatch({ type: 'REMOVE_CHARACTER', payload: id });
-    }
-  };
+  const {
+    characters,
+    handleChange,
+    handleClearAll,
+    selectedCount: characterCount,
+  } = useCharacterSelection();
+  const { handleDownloadCSV } = useDownloadCSV(results, characters);
 
   useEffect(() => {
-    setSelectedCount(characters.length);
-  }, [characters]);
-
-  const handleClearAll = () => {
-    dispatch({ type: 'CLEAR_ALL_CHARACTERS' });
-    setSelectedCount(0);
-  };
-
-  const { handleDownloadCSV } = useDownloadCSV(results, characters);
+    setSelectedCount(characterCount);
+  }, [characterCount]);
 
   return (
     <div className="search-res">
