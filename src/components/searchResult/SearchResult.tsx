@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { SearchResultProps } from './types';
 import useCharacterSelection from '../../hooks/useSelectCharacter';
 import useDownloadCSV from '../../hooks/useDownloadCSV';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../../redux/pageSlice';
 import Popup from '../popupProps/PopupProps';
 import './SearchResult.css';
 
@@ -25,9 +27,11 @@ const SearchResult: React.FC<SearchResultProps> = ({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedResults = results.slice(startIndex, startIndex + itemsPerPage);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    dispatch(setPage(page));
     const nextPageUrl = page === 1 ? '/search' : `/search/${page}`;
     navigate(nextPageUrl);
   };
@@ -90,5 +94,4 @@ const SearchResult: React.FC<SearchResultProps> = ({
     </div>
   );
 };
-
 export default SearchResult;
