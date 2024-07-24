@@ -1,8 +1,13 @@
 import { describe, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import SearchResult from '../components/searchResult/SearchResult';
 import DetailsComponent from '../components/detailsCharachter/DetailsCharachter';
+import pageSlice from '../redux/pageSlice';
+import characterSelSlice from '../redux/characterSelSlice';
+import charactersSlice from '../redux/characterSlice';
 import { SearchDataType } from '../services/types';
 
 const mockResults: Partial<SearchDataType>[] = [
@@ -13,26 +18,36 @@ const mockResults: Partial<SearchDataType>[] = [
   { id: 5, name: 'Jerry Smith', image: 'image5.jpg' },
 ];
 
+vi.mock('../hooks/useCharacterDetails', () => ({
+  __esModule: true,
+  default: () => ({
+    isLoading: false,
+    character: mockResults[0],
+    handleClose: vi.fn(),
+  }),
+}));
+
+const store = configureStore({
+  reducer: {
+    page: pageSlice,
+    characterSelection: characterSelSlice,
+    characters: charactersSlice,
+  },
+});
+
 describe('Card', () => {
   it('opens detailed card on card click', async () => {
-    vi.mock('../hooks/useCharacterDetails', () => ({
-      __esModule: true,
-      default: () => ({
-        isLoading: false,
-        character: mockResults[0],
-        handleClose: vi.fn(),
-      }),
-    }));
-
     render(
-      <BrowserRouter>
-        <SearchResult
-          results={mockResults as SearchDataType[]}
-          onItemClick={() => {}}
-          currentPage={1}
-        />
-        <DetailsComponent id="1" onClose={() => {}} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <SearchResult
+            results={mockResults as SearchDataType[]}
+            onItemClick={() => {}}
+            currentPage={1}
+          />
+          <DetailsComponent id="1" onClose={() => {}} />
+        </BrowserRouter>
+      </Provider>
     );
 
     const cards = screen.getAllByTestId('result-item');

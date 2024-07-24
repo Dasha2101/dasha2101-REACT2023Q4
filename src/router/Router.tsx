@@ -6,11 +6,13 @@ import SearchPage from '../pages/Search';
 const RouterComponent: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<SearchPage />} />
-        <Route path="/search/:page?" element={<SearchPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div data-testid="router-component">
+        <Routes>
+          <Route path="/" element={<SearchPage />} />
+          <Route path="/search/:page?" element={<SearchPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </Router>
   );
 };

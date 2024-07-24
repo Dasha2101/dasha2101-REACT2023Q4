@@ -9,7 +9,7 @@ interface ThemedContainerProps {
 const ThemedContainer: React.FC<ThemedContainerProps> = ({ children }) => {
   const { theme } = useTheme();
   return (
-    <div className={`${theme}-theme`}>
+    <div data-testid="themed-container" className={`${theme}-theme`}>
       <ThemeSwitcher />
       {children}
     </div>

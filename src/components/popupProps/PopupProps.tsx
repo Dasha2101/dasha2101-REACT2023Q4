@@ -17,8 +17,8 @@ const Popup: React.FC<PopupProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className="popup">
-      <p>{`Choose ${selectedCount} elements${selectedCount > 1 ? 'a' : ''}`}</p>
+    <div className="popup" data-testid="popup">
+      <p>{`Choose ${selectedCount} element${selectedCount > 1 ? 's' : ''}`}</p>
       <div className="popup-buttons">
         <button onClick={onClearAll}>Delete all</button>
         <button onClick={onDownload}>Download</button>
