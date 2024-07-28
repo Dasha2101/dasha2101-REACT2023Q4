@@ -27,15 +27,15 @@
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">94.28% </span>
+            <span class="strong">88.57% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">33/35</span>
+            <span class="fraction">31/35</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">80% </span>
+            <span class="strong">50% </span>
             <span class="quiet">Branches</span>
-            <span class="fraction">4/5</span>
+            <span class="fraction">2/4</span>
           </div>
 
           <div class="fl pad1y space-right2">
@@ -45,9 +45,9 @@
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">94.28% </span>
+            <span class="strong">88.57% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">33/35</span>
+            <span class="fraction">31/35</span>
           </div>
         </div>
         <p class="quiet">
@@ -112,17 +112,17 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -137,14 +137,14 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
@@ -162,9 +162,9 @@ const DetailsComponent: React.FC&lt;UseCharacterDetailsProps&gt; = ({
     onClose,
   });
 &nbsp;
-  if (isLoading) {
-    return &lt;Loading /&gt;;
-  }
+  if (isLoading) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;Loading /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   if (!character) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    return &lt;div&gt;Error loading character details&lt;/div&gt;;</span>
@@ -203,7 +203,7 @@ export default DetailsComponent;
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2024-07-24T10:52:58.265Z
+      at 2024-07-28T11:01:53.257Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>

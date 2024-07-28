@@ -1,0 +1,48 @@
+.theme-switcher {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+}
+
+.theme-switcher label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
+
+.theme-switcher input[type='radio'] {
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  outline: none;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+  position: relative;
+}
+
+.theme-switcher input[type='radio']:checked::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #11e118;
+  position: absolute;
+  top: 3px;
+  left: 2px;
+}
+
+.theme-switcher input[type='radio']:hover {
+  border-color: #05950a;
+}
+
+.theme-switcher label:hover {
+  color: #0fa214;
+}

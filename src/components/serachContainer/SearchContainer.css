@@ -13,3 +13,8 @@ form input {
 form input::placeholder {
   color: #00ff00;
 }
+
+form {
+  display: flex;
+  justify-content: center;
+}

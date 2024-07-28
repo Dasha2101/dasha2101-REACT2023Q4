@@ -15,7 +15,6 @@ const useSearchAndFetch = () => {
     'lastSearchQuery',
     ''
   );
-
   const {
     data: allResults,
     error: errorAllResults,
@@ -32,13 +31,18 @@ const useSearchAndFetch = () => {
     setTimeout(() => {
       setIsLoading(false);
       setShowResults(true);
+      setError(null);
     }, 1000);
   };
 
-  const fetchAllResults = useCallback(() => {
+  const updateState = () => {
     setIsLoading(true);
     setShowResults(false);
     setError(null);
+  };
+
+  const fetchAllResults = useCallback(() => {
+    updateState();
     if (!isFetchingAllResults) {
       if (errorAllResults) {
         setError('Error loading data');
@@ -53,12 +57,10 @@ const useSearchAndFetch = () => {
   const handleSearch = useCallback(
     (query: string) => {
       setLastSearchQuery(query);
-      setIsLoading(true);
-      setShowResults(false);
-      setError(null);
+      updateState();
       if (!isFetchingSearchResults) {
         if (errorSearchResults) {
-          setError('Error while performing search');
+          setError('Error performing search');
           setSearchResults([]);
           setShowResults(false);
         } else if (searchResultsData) {
@@ -109,5 +111,4 @@ const useSearchAndFetch = () => {
     lastSearchQuery,
   };
 };
-
 export default useSearchAndFetch;

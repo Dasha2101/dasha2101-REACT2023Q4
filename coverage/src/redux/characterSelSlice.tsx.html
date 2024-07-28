@@ -23,27 +23,27 @@
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">72.72% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">22/22</span>
+            <span class="fraction">16/22</span>
           </div>
 
           <div class="fl pad1y space-right2">
             <span class="strong">100% </span>
             <span class="quiet">Branches</span>
-            <span class="fraction">4/4</span>
+            <span class="fraction">0/0</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">0% </span>
             <span class="quiet">Functions</span>
-            <span class="fraction">3/3</span>
+            <span class="fraction">0/3</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">72.72% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">22/22</span>
+            <span class="fraction">16/22</span>
           </div>
         </div>
         <p class="quiet">
@@ -57,7 +57,7 @@
           </div>
         </template>
       </div>
-      <div class="status-line high"></div>
+      <div class="status-line medium"></div>
       <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,14 +97,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -122,15 +122,15 @@ const characterSelSlice = createSlice({
   name: 'characterSelection',
   initialState: initialCharacterSelectionState,
   reducers: {
-    addCharacter(state, action: PayloadAction&lt;number&gt;) {
-      state.characters.push(action.payload);
-    },
-    removeCharacter(state, action: PayloadAction&lt;number&gt;) {
-      state.characters = state.characters.filter((id) =&gt; id !== action.payload);
-    },
-    clearAllCharacters(state) {
-      state.characters = [];
-    },
+<span class="fstat-no" title="function not covered" >    addCharacter(state, action: PayloadAction&lt;number&gt;) {</span>
+<span class="cstat-no" title="statement not covered" >      state.characters.push(action.payload);</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="fstat-no" title="function not covered" >    removeCharacter(state, action: PayloadAction&lt;number&gt;) {</span>
+<span class="cstat-no" title="statement not covered" >      state.characters = state.characters.filter((id) =&gt; id !== action.payload);</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="fstat-no" title="function not covered" >    clearAllCharacters(state) {</span>
+<span class="cstat-no" title="statement not covered" >      state.characters = [];</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
   },
 });
 &nbsp;
@@ -151,7 +151,7 @@ export default characterSelSlice.reducer;
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2024-07-24T10:52:58.265Z
+      at 2024-07-28T11:01:53.257Z
     </div>
     <script src="../../prettify.js"></script>
     <script>

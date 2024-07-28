@@ -289,7 +289,7 @@ const SearchResult: React.FC&lt;SearchResultProps&gt; = ({
   const handlePageChange = <span class="fstat-no" title="function not covered" >(page: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setCurrentPage(page);</span>
 <span class="cstat-no" title="statement not covered" >    dispatch(setPage(page));</span>
-<span class="cstat-no" title="statement not covered" >    const nextPageUrl = page === 1 ? '/search' : `/search/${page}`;</span>
+<span class="cstat-no" title="statement not covered" >    const nextPageUrl = page === 1 ? '/search/1' : `/search/${page}`;</span>
 <span class="cstat-no" title="statement not covered" >    navigate(nextPageUrl);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
@@ -366,7 +366,7 @@ export default SearchResult;
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2024-07-24T10:52:58.265Z
+      at 2024-07-28T11:01:53.257Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>
