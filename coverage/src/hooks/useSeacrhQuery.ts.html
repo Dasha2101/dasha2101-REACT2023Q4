@@ -23,27 +23,27 @@
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">59.37% </span>
+            <span class="strong">90.62% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">19/32</span>
+            <span class="fraction">29/32</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">66.66% </span>
+            <span class="strong">100% </span>
             <span class="quiet">Branches</span>
-            <span class="fraction">2/3</span>
+            <span class="fraction">5/5</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">25% </span>
+            <span class="strong">75% </span>
             <span class="quiet">Functions</span>
-            <span class="fraction">1/4</span>
+            <span class="fraction">3/4</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">59.37% </span>
+            <span class="strong">90.62% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">19/32</span>
+            <span class="fraction">29/32</span>
           </div>
         </div>
         <p class="quiet">
@@ -57,7 +57,7 @@
           </div>
         </template>
       </div>
-      <div class="status-line medium"></div>
+      <div class="status-line high"></div>
       <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,39 +102,39 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect } from 'react';
@@ -145,22 +145,22 @@ const useSearchQuery = (initialQuery: string = 'lastSearchQuery') =&gt; {
 &nbsp;
   useEffect(() =&gt; {
     const savedQuery = localStorage.getItem(initialQuery);
-    if (savedQuery) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >      setSearchQuery(savedQuery);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    if (savedQuery) {
+      setSearchQuery(savedQuery);
+    }
   }, [initialQuery, setSearchQuery]);
 &nbsp;
-  const handleSearchChange = <span class="fstat-no" title="function not covered" >(event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setSearchQuery(event.target.value);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+  const handleSearchChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    setSearchQuery(event.target.value);
+  };
 &nbsp;
-  const handleSearchSubmit = <span class="fstat-no" title="function not covered" >(</span>
-<span class="cstat-no" title="statement not covered" >    event: React.FormEvent&lt;HTMLFormElement&gt;,</span>
-<span class="cstat-no" title="statement not covered" >    onSearch: (query: string) =&gt; void</span>
-<span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    event.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >    onSearch(searchQuery);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+  const handleSearchSubmit = (
+    event: React.FormEvent&lt;HTMLFormElement&gt;,
+    onSearch: (query: string) =&gt; void
+  ) =&gt; {
+    event.preventDefault();
+    onSearch(searchQuery);
+  };
 &nbsp;
   const resetSearchQuery = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setSearchQuery('');</span>
@@ -190,7 +190,7 @@ export default useSearchQuery;
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2024-07-28T11:01:53.257Z
+      at 2024-07-28T20:44:08.304Z
     </div>
     <script src="../../prettify.js"></script>
     <script>

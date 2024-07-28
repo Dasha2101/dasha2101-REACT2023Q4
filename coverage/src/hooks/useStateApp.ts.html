@@ -23,27 +23,27 @@
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">57% </span>
+            <span class="strong">58.82% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">57/100</span>
+            <span class="fraction">60/102</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">60% </span>
+            <span class="strong">66.66% </span>
             <span class="quiet">Branches</span>
-            <span class="fraction">3/5</span>
+            <span class="fraction">4/6</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">33.33% </span>
+            <span class="strong">50% </span>
             <span class="quiet">Functions</span>
-            <span class="fraction">1/3</span>
+            <span class="fraction">2/4</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">57% </span>
+            <span class="strong">58.82% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">57/100</span>
+            <span class="fraction">60/102</span>
           </div>
         </div>
         <p class="quiet">
@@ -172,7 +172,8 @@
 <a name='L111'></a><a href='#L111'>111</a>
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,7 +190,6 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -202,6 +202,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -214,6 +215,10 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -226,8 +231,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -283,7 +286,6 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect, useCallback } from 'react';
 import {
@@ -302,7 +304,6 @@ const useSearchAndFetch = () =&gt; {
     'lastSearchQuery',
     ''
   );
-&nbsp;
   const {
     data: allResults,
     error: errorAllResults,
@@ -319,13 +320,18 @@ const useSearchAndFetch = () =&gt; {
 <span class="cstat-no" title="statement not covered" >    setTimeout(() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
 <span class="cstat-no" title="statement not covered" >      setShowResults(true);</span>
+<span class="cstat-no" title="statement not covered" >      setError(null);</span>
 <span class="cstat-no" title="statement not covered" >    }, 1000);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const fetchAllResults = useCallback(() =&gt; {
+  const updateState = () =&gt; {
     setIsLoading(true);
     setShowResults(false);
     setError(null);
+  };
+&nbsp;
+  const fetchAllResults = useCallback(() =&gt; {
+    updateState();
     if (!isFetchingAllResults) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >      if (errorAllResults) {</span>
 <span class="cstat-no" title="statement not covered" >        setError('Error loading data');</span>
@@ -340,12 +346,10 @@ const useSearchAndFetch = () =&gt; {
   const handleSearch = useCallback(
     (query: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >      setLastSearchQuery(query);</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >      setShowResults(false);</span>
-<span class="cstat-no" title="statement not covered" >      setError(null);</span>
+<span class="cstat-no" title="statement not covered" >      updateState();</span>
 <span class="cstat-no" title="statement not covered" >      if (!isFetchingSearchResults) {</span>
 <span class="cstat-no" title="statement not covered" >        if (errorSearchResults) {</span>
-<span class="cstat-no" title="statement not covered" >          setError('Error while performing search');</span>
+<span class="cstat-no" title="statement not covered" >          setError('Error performing search');</span>
 <span class="cstat-no" title="statement not covered" >          setSearchResults([]);</span>
 <span class="cstat-no" title="statement not covered" >          setShowResults(false);</span>
 <span class="cstat-no" title="statement not covered" >        } else if (searchResultsData) {</span>
@@ -396,7 +400,6 @@ const useSearchAndFetch = () =&gt; {
     lastSearchQuery,
   };
 };
-&nbsp;
 export default useSearchAndFetch;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -412,7 +415,7 @@ export default useSearchAndFetch;
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2024-07-28T11:01:53.257Z
+      at 2024-07-28T20:44:08.304Z
     </div>
     <script src="../../prettify.js"></script>
     <script>

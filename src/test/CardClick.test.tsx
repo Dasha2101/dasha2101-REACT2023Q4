@@ -36,7 +36,7 @@ const store = configureStore({
 });
 
 describe('Card', () => {
-  it('opens detailed card on card click', async () => {
+  it('open detail card with card click', async () => {
     render(
       <Provider store={store}>
         <BrowserRouter>

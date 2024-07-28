@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import Popup from '../components/popupProps/PopupProps';
 
 describe('Popup Component', () => {
-  it('should display the correct number of selected elements', () => {
+  it('display correct number elements', () => {
     const { rerender } = render(
       <Popup
         isVisible={true}

@@ -26,7 +26,7 @@ const store = configureStore({
 });
 
 describe('Card', () => {
-  it('displays correct number of cards and renders their data', () => {
+  it('display correct number of cards', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>

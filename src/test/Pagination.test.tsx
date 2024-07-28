@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Pagination from '../components/pagination/Pagination';
 
 describe('Pagination Component', () => {
-  it('call onChangePage with correct page number', () => {
+  it('call onChangePage', () => {
     const onChangePage = vi.fn();
     const currentPage = 1;
     const totalPages = 5;
