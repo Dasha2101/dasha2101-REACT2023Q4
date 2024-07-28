@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { RickAndMortyAPI } from '../services/apiService/apiSevice';
+import {
+  useFetchSearchResultsQuery,
+  useFetchAllResultsQuery,
+} from '../services/rtkApi';
 import { SearchDataType } from '../services/types';
 import useLocalStorage from './useLocalStorage';
 
@@ -12,43 +15,71 @@ const useSearchAndFetch = () => {
     'lastSearchQuery',
     ''
   );
+  const {
+    data: allResults,
+    error: errorAllResults,
+    isFetching: isFetchingAllResults,
+  } = useFetchAllResultsQuery(1);
+  const {
+    data: searchResultsData,
+    error: errorSearchResults,
+    isFetching: isFetchingSearchResults,
+  } = useFetchSearchResultsQuery({ query: lastSearchQuery, page: 1 });
 
   const updateSearchResults = (results: SearchDataType[]) => {
     setSearchResults(results);
     setTimeout(() => {
       setIsLoading(false);
       setShowResults(true);
+      setError(null);
     }, 1000);
   };
 
-  const fetchAllResults = useCallback(async () => {
+  const updateState = () => {
     setIsLoading(true);
     setShowResults(false);
-    try {
-      const results = await RickAndMortyAPI.fetchAllResults();
-      updateSearchResults(results);
-    } catch (error) {
-      setError('Error loading data');
-      setIsLoading(false);
-      setShowResults(false);
+    setError(null);
+  };
+
+  const fetchAllResults = useCallback(() => {
+    updateState();
+    if (!isFetchingAllResults) {
+      if (errorAllResults) {
+        setError('Error loading data');
+        setSearchResults([]);
+        setShowResults(false);
+      } else if (allResults) {
+        updateSearchResults(allResults.results);
+      }
     }
-  }, []);
+  }, [allResults, errorAllResults, isFetchingAllResults]);
 
   const handleSearch = useCallback(
-    async (query: string) => {
-      setIsLoading(true);
-      setShowResults(false);
-      try {
-        const results = await RickAndMortyAPI.fetchSearchResults(query);
-        updateSearchResults(results);
-        setLastSearchQuery(query);
-      } catch (error) {
-        setError('Error while performing search');
-        setIsLoading(false);
-        setShowResults(false);
+    (query: string) => {
+      setLastSearchQuery(query);
+      updateState();
+      if (!isFetchingSearchResults) {
+        if (errorSearchResults) {
+          setError('Error performing search');
+          setSearchResults([]);
+          setShowResults(false);
+        } else if (searchResultsData) {
+          if (searchResultsData.results.length === 0) {
+            setError('No results found');
+            setShowResults(false);
+            setSearchResults([]);
+          } else {
+            updateSearchResults(searchResultsData.results);
+          }
+        }
       }
     },
-    [setIsLoading, setShowResults, setLastSearchQuery]
+    [
+      searchResultsData,
+      errorSearchResults,
+      isFetchingSearchResults,
+      setLastSearchQuery,
+    ]
   );
 
   useEffect(() => {
@@ -80,5 +111,4 @@ const useSearchAndFetch = () => {
     lastSearchQuery,
   };
 };
-
 export default useSearchAndFetch;

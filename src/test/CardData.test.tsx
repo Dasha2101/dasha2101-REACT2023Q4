@@ -1,7 +1,12 @@
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import SearchResult from '../components/searchResult/SearchResult';
+import pageSlice from '../redux/pageSlice';
+import characterSelSlice from '../redux/characterSelSlice';
+import charactersSlice from '../redux/characterSlice';
 import { SearchDataType } from '../services/types';
 
 const mockResults: Partial<SearchDataType>[] = [
@@ -12,16 +17,26 @@ const mockResults: Partial<SearchDataType>[] = [
   { id: 5, name: 'Jerry Smith', image: 'image5.jpg' },
 ];
 
+const store = configureStore({
+  reducer: {
+    page: pageSlice,
+    characterSelection: characterSelSlice,
+    characters: charactersSlice,
+  },
+});
+
 describe('Card', () => {
-  it('displays correct number of cards and renders their data', () => {
+  it('display correct number of cards', () => {
     render(
-      <BrowserRouter>
-        <SearchResult
-          results={mockResults as SearchDataType[]}
-          onItemClick={() => {}}
-          currentPage={1}
-        />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <SearchResult
+            results={mockResults as SearchDataType[]}
+            onItemClick={() => {}}
+            currentPage={1}
+          />
+        </BrowserRouter>
+      </Provider>
     );
 
     const cards = screen.getAllByTestId('result-item');

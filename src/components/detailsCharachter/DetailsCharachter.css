@@ -1,10 +1,18 @@
 .details-panel {
-  background-color: #1f232a;
-  color: #ffffff;
   border: 1px solid #3b414a;
   padding: 20px;
   margin-top: 20px;
   width: 300px;
+}
+
+.light-thema .details-panel {
+  background-color: #1f232a;
+  color: #ffffff;
+}
+
+.dark-thema .details-panel {
+  background-color: #ffffff;
+  color: #1f232a;
 }
 
 .details-panel h2 {
