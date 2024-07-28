@@ -6,10 +6,17 @@ const useRouteParams = () => {
   const params = useParams<{ page?: string }>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const detailsId = searchParams.get('details');
+    setName(searchParams.get('name'));
+    const page = searchParams.get('page');
+    if (page) {
+      setCurrentPage(parseInt(page));
+    }
+
     if (detailsId) {
       setSelectedId(detailsId);
     } else {
@@ -20,12 +27,11 @@ const useRouteParams = () => {
   useEffect(() => {
     if (params.page) {
       setCurrentPage(parseInt(params.page));
-    } else {
-      setCurrentPage(1);
+      return;
     }
-  }, [params.page]);
+  }, [params]);
 
-  return { currentPage, selectedId };
+  return { currentPage, selectedId, name };
 };
 
 export default useRouteParams;

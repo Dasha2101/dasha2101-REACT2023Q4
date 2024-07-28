@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RickAndMortyAPI } from '../services/apiService/apiSevice';
+import { useFetchCharacterQuery } from '../services/rtkApi';
 import { SearchDataType } from '../services/types';
 import { useNavigate } from 'react-router-dom';
 import { UseCharacterDetailsProps } from '../components/detailsCharachter/types';
@@ -9,23 +9,28 @@ const useCharacterDetails = ({ id, onClose }: UseCharacterDetailsProps) => {
   const [character, setCharacter] = useState<SearchDataType | null>(null);
   const navigate = useNavigate();
 
+  const { data, isFetching, error } = useFetchCharacterQuery(Number(id));
+
   useEffect(() => {
-    const fetchCharacter = async () => {
+    if (isFetching) {
       setLoading(true);
-      try {
-        const char = await RickAndMortyAPI.fetchCharacter(Number(id));
+    } else {
+      if (data) {
+        setLoading(true);
         setTimeout(() => {
-          setCharacter(char);
+          setCharacter(data);
           setLoading(false);
         }, 1000);
-      } catch (error) {
-        console.error('Error fetching character:', error);
+      } else {
         setLoading(false);
       }
-    };
+    }
 
-    fetchCharacter();
-  }, [id]);
+    if (error) {
+      console.error('Error fetching character:', error);
+      setLoading(false);
+    }
+  }, [data, isFetching, error]);
 
   const handleClose = () => {
     navigate('/');

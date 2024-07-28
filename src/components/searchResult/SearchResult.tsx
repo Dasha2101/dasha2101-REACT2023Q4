@@ -32,7 +32,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     dispatch(setPage(page));
-    const nextPageUrl = page === 1 ? '/search' : `/search/${page}`;
+    const nextPageUrl = page === 1 ? '/search/1' : `/search/${page}`;
     navigate(nextPageUrl);
   };
 
