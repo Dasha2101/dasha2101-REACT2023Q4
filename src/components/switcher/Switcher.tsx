@@ -6,18 +6,26 @@ const ThemeSwitcher: React.FC = () => {
 
   return (
     <div className="theme-switcher">
-      <button
-        onClick={() => setTheme('light')}
-        className={theme === 'light' ? 'active' : ''}
-      >
+      <label>
+        <input
+          type="radio"
+          name="theme"
+          value="light"
+          checked={theme === 'light'}
+          onChange={() => setTheme('light')}
+        />
         Light Theme
-      </button>
-      <button
-        onClick={() => setTheme('dark')}
-        className={theme === 'dark' ? 'active' : ''}
-      >
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="theme"
+          value="dark"
+          checked={theme === 'dark'}
+          onChange={() => setTheme('dark')}
+        />
         Dark Theme
-      </button>
+      </label>
     </div>
   );
 };
