@@ -1,10 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ErrorBoundary from '@/components/bundler/Bundler';
 import SearchComponent from '@/components/serachContainer/SearhContainer';
 import SearchResult from '@/components/searchResult/SearchResult';
 import useSearchAndFetch from '@/hooks/useStateApp';
 import Loading from '@/components/loading/Loading';
+import DetailsComponent from '@/components/detailsCharachter/DetailsCharachter';
+
 import './Search.css';
 
 const SearchPage = () => {
@@ -16,10 +18,24 @@ const SearchPage = () => {
     handleSearch,
     handleResetSearch,
   } = useSearchAndFetch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const handleItemClick = (id: string, page: number) => {
-    console.log('Item clicked:', id, 'Page:', page);
+  const handleItemClick = (id: string) => {
+    console.log('Clicked ID:', id);
+    setSelectedId(id);
   };
+
+  const handleCloseDetails = () => {
+    setSelectedId(null);
+  };
+
+  useEffect(() => {
+    if (!searchResults.length) {
+      setCurrentPage(1);
+    }
+  }, [searchResults]);
+
   return (
     <ErrorBoundary
       hasError={Boolean(error)}
@@ -31,15 +47,26 @@ const SearchPage = () => {
         onSearch={handleSearch}
         resetSearch={handleResetSearch}
       />
-      {isLoading && <Loading />}
-      {error && <p className="error">{error}</p>}
-      {showResults && (
-        <SearchResult
-          results={searchResults}
-          onItemClick={handleItemClick}
-          currentPage={1}
-        />
-      )}
+      <div className="left-panel">
+        <div className="results-section">
+          {isLoading && <Loading />}
+          {!isLoading && showResults && (
+            <SearchResult
+              results={searchResults}
+              onItemClick={handleItemClick}
+              currentPage={currentPage}
+            />
+          )}
+          {!isLoading && !showResults && (
+            <div className="empty-results">Sorry results not found</div>
+          )}
+        </div>
+        {selectedId && (
+          <div className="right-panel">
+            <DetailsComponent id={selectedId} onClose={handleCloseDetails} />
+          </div>
+        )}
+      </div>
     </ErrorBoundary>
   );
 };

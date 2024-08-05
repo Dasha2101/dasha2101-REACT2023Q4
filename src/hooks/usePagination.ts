@@ -5,7 +5,7 @@ interface UsePaginationProps {
   initialPage?: number;
   itemsPerPage?: number;
   initialData?: SearchDataType[];
-  searchData?: string;
+  // searchData?: string;
 }
 
 const usePagination = ({
