@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import ErrorBoundary from '@/components/bundler/Bundler';
 import SearchComponent from '@/components/serachContainer/SearhContainer';
 import SearchResult from '@/components/searchResult/SearchResult';
@@ -20,20 +21,35 @@ const SearchPage = () => {
     handleResetSearch,
   } = useSearchAndFetch();
 
+  const router = useRouter();
   const params = useSearchParams();
-  const [currentPage] = useState(parseInt(params?.get('page') ?? '1', 10));
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(params?.get('page') ?? '1', 10)
+  );
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  console.log(searchResults?.length);
-  console.log(currentPage);
+  useEffect(() => {
+    const id = params?.get('id');
+    if (id) {
+      setSelectedId(id);
+    } else {
+      setSelectedId(null);
+    }
+  }, [params]);
+
+  useEffect(() => {
+    const pageParam = parseInt(params?.get('page') ?? '1', 10);
+    setCurrentPage(pageParam);
+  }, [params]);
 
   const handleItemClick = (id: string) => {
-    console.log('Clicked ID:', id);
     setSelectedId(id);
+    router.push(`/search?page=${currentPage}&id=${id}`);
   };
 
   const handleCloseDetails = () => {
     setSelectedId(null);
+    router.push(`/search?page=${currentPage}`);
   };
 
   return (
