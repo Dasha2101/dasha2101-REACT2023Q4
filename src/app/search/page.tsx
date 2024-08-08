@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ErrorBoundary from '@/components/bundler/Bundler';
 import SearchComponent from '@/components/serachContainer/SearhContainer';
 import SearchResult from '@/components/searchResult/SearchResult';
@@ -8,6 +8,7 @@ import Loading from '@/components/loading/Loading';
 import DetailsComponent from '@/components/detailsCharachter/DetailsCharachter';
 
 import './Search.css';
+import { useSearchParams } from 'next/navigation';
 
 const SearchPage = () => {
   const {
@@ -18,8 +19,13 @@ const SearchPage = () => {
     handleSearch,
     handleResetSearch,
   } = useSearchAndFetch();
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const params = useSearchParams();
+  const [currentPage] = useState(parseInt(params?.get('page') ?? '1', 10));
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  console.log(searchResults?.length);
+  console.log(currentPage);
 
   const handleItemClick = (id: string) => {
     console.log('Clicked ID:', id);
@@ -29,12 +35,6 @@ const SearchPage = () => {
   const handleCloseDetails = () => {
     setSelectedId(null);
   };
-
-  useEffect(() => {
-    if (!searchResults.length) {
-      setCurrentPage(1);
-    }
-  }, [searchResults]);
 
   return (
     <ErrorBoundary

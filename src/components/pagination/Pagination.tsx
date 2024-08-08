@@ -15,9 +15,8 @@ const Pagination: React.FC<PaginationProps> = ({
         <a
           key={page}
           className={`button btn ${page === currentPage ? 'active' : ''}`}
-          href={`/search/${page}`}
-          onClick={(e) => {
-            e.preventDefault();
+          href={`/search?page=${page}`}
+          onClick={() => {
             onChangePage(page);
           }}
         >
