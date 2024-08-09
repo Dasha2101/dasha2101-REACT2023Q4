@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { PaginationProps } from './types';
 import './Pagination.css';
 
@@ -7,21 +8,24 @@ const Pagination: React.FC<PaginationProps> = ({
   total,
   onChangePage,
 }) => {
+  const router = useRouter();
   const pages = Array.from({ length: total }, (_, index) => index + 1);
+
+  const handlePageChange = (page: number) => {
+    onChangePage(page);
+    router.push(`/search?page=${page}`);
+  };
 
   return (
     <div className="pagination">
       {pages.map((page) => (
-        <a
+        <button
           key={page}
           className={`button btn ${page === currentPage ? 'active' : ''}`}
-          href={`/search?page=${page}`}
-          onClick={() => {
-            onChangePage(page);
-          }}
+          onClick={() => handlePageChange(page)}
         >
           {page}
-        </a>
+        </button>
       ))}
     </div>
   );

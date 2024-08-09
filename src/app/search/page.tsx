@@ -1,14 +1,14 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ErrorBoundary from '@/components/bundler/Bundler';
-import SearchComponent from '@/components/serachContainer/SearhContainer';
-import SearchResult from '@/components/searchResult/SearchResult';
-import useSearchAndFetch from '@/hooks/useStateApp';
-import Loading from '@/components/loading/Loading';
-import DetailsComponent from '@/components/detailsCharachter/DetailsCharachter';
-
-import './Search.css';
+import ErrorBoundary from '../../components/bundler/Bundler';
+import SearchComponent from '../../components/serachContainer/SearhContainer';
+import SearchResult from '../../components/searchResult/SearchResult';
+import useSearchAndFetch from '../../hooks/useStateApp';
+import Loading from '../../components/loading/Loading';
+import DetailsComponent from '../../components/detailsCharachter/DetailsCharachter';
+import ThemeWrapper from '../../components/themedWrapper/ThemedWrapper';
+import '../globals.css';
 import { useSearchParams } from 'next/navigation';
 
 const SearchPage = () => {
@@ -26,14 +26,14 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(
     parseInt(params?.get('page') ?? '1', 10)
   );
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
-    const id = params?.get('id');
-    if (id) {
-      setSelectedId(id);
+    const idsParam = params?.get('ids');
+    if (idsParam) {
+      setSelectedIds(idsParam.split(','));
     } else {
-      setSelectedId(null);
+      setSelectedIds([]);
     }
   }, [params]);
 
@@ -43,12 +43,19 @@ const SearchPage = () => {
   }, [params]);
 
   const handleItemClick = (id: string) => {
-    setSelectedId(id);
-    router.push(`/search?page=${currentPage}&id=${id}`);
+    const newSelectedIds = selectedIds.includes(id)
+      ? selectedIds.filter((selectedId) => selectedId !== id)
+      : [...selectedIds, id];
+    setSelectedIds(newSelectedIds);
+    router.push(`/search?page=${currentPage}&ids=${newSelectedIds.join(',')}`);
+  };
+
+  const handleSelectionChange = (newSelectedIds: string[]) => {
+    setSelectedIds(newSelectedIds);
+    router.push(`/search?page=${currentPage}&ids=${newSelectedIds.join(',')}`);
   };
 
   const handleCloseDetails = () => {
-    setSelectedId(null);
     router.push(`/search?page=${currentPage}`);
   };
 
@@ -58,33 +65,39 @@ const SearchPage = () => {
       errorMessage={error || ''}
       onReset={handleResetSearch}
     >
-      <h1>Rick and Morty</h1>
-      <SearchComponent
-        onSearch={handleSearch}
-        resetSearch={handleResetSearch}
-      />
-      <div className="left-panel">
-        <div className="results-section">
-          {isLoading && <Loading />}
-          {!isLoading && showResults && (
-            <SearchResult
-              results={searchResults}
-              onItemClick={handleItemClick}
-              currentPage={currentPage}
-            />
-          )}
-          {!isLoading && !showResults && (
-            <div className="empty-results">Sorry results not found</div>
+      <ThemeWrapper>
+        <h1>Rick and Morty</h1>
+        <SearchComponent
+          onSearch={handleSearch}
+          resetSearch={handleResetSearch}
+        />
+        <div className="left-panel">
+          <div className="results-section">
+            {isLoading && <Loading />}
+            {!isLoading && showResults && (
+              <SearchResult
+                results={searchResults}
+                onItemClick={handleItemClick}
+                currentPage={currentPage}
+                selectedIds={selectedIds}
+                onSelectionChange={handleSelectionChange}
+              />
+            )}
+            {!isLoading && !showResults && (
+              <div className="empty-results">Sorry results not found</div>
+            )}
+          </div>
+          {selectedIds.length > 0 && (
+            <div className="right-panel">
+              <DetailsComponent
+                id={selectedIds[0]}
+                onClose={handleCloseDetails}
+              />
+            </div>
           )}
         </div>
-        {selectedId && (
-          <div className="right-panel">
-            <DetailsComponent id={selectedId} onClose={handleCloseDetails} />
-          </div>
-        )}
-      </div>
+      </ThemeWrapper>
     </ErrorBoundary>
   );
 };
-
 export default SearchPage;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { RickAndMortyAPI } from '@/services/api';
-import { SearchDataType } from '@/services/types';
-import { UseCharacterDetailsProps } from '@/components/detailsCharachter/types';
+import { RickAndMortyAPI } from '../services/api';
+import { SearchDataType } from '../services/types';
+import { UseCharacterDetailsProps } from '../components/detailsCharachter/types';
 
 const useCharacterDetails = ({ id, onClose }: UseCharacterDetailsProps) => {
   const [isLoading, setLoading] = useState(true);

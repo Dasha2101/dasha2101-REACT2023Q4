@@ -1,0 +1,44 @@
+// import React from 'react';
+// import { render, screen, waitFor } from '@testing-library/react';
+// import { describe, it, expect, vi } from 'vitest';
+// import SearchPage from '../app/search/page';
+// import { SearchDataType } from '../services/types';
+
+// vi.mock('../hooks/useStateApp', () => ({
+//   __esModule: true,
+//   default: vi.fn(() => ({
+//     isLoading: false,
+//     error: null,
+//     searchResults: [] as SearchDataType[],
+//     showResults: false,
+//     handleSearch: vi.fn(),
+//     handleResetSearch: vi.fn(),
+//     fetchAllResults: vi.fn().mockResolvedValue([] as SearchDataType[]),
+//     lastSearchQuery: '',
+//   })),
+// }));
+
+// vi.mock('next/navigation', () => ({
+//   __esModule: true,
+//   useRouter: () => ({
+//     push: vi.fn(),
+//   }),
+//   useSearchParams: () => ({
+//     get: (key: string) => {
+//       if (key === 'page') return '1';
+//       if (key === 'ids') return '';
+//       return null;
+//     },
+//   }),
+// }));
+
+// describe('SearchPage', () => {
+//   it('displays "Sorry results not found" when no search results are returned', async () => {
+//     render(<SearchPage />);
+
+//     await waitFor(() => {
+//       const messageElement = screen.queryByText('Sorry results not found');
+//       expect(messageElement).not.toBeNull();
+//     });
+//   });
+// });

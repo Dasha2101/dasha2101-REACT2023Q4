@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { RickAndMortyAPI } from '@/services/api';
+import { RickAndMortyAPI } from '../services/api';
 import { SearchDataType } from '../services/types';
 import useLocalStorage from './useLocalStorage';
 
