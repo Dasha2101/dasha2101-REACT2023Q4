@@ -1,18 +1,47 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import useSearchAndFetch from '../../hooks/useStateApp';
 import useSearchQuery from '../../hooks/useSeacrhQuery';
 import SearchResult from '../searchResult/SearchResult';
+import DetailsComponent from '../detailsCharachter/DetailsCharachter';
 import Loading from '../loading/Loading';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import './SearchContainer.css';
 
 const SearchComponent: React.FC = () => {
   const { searchQuery, handleSearchChange, handleSearchSubmit } =
     useSearchQuery();
   const { searchResults, isLoading, error, handleSearch } = useSearchAndFetch();
+  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(
+    null
+  );
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const params = useSearchParams();
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(params?.get('page') ?? '1', 10)
+  );
 
   const onSearch = async (query: string) => {
     handleSearch(query);
+  };
+  const handleCharacterSelect = (id: string) => {
+    setSelectedCharacterId(id);
+    router.push(
+      `/search?page=${currentPage}&ids=${selectedIds.join(',')}&did=${id}`
+    );
+  };
+  const handleCloseDetails = () => {
+    router.push(`/search?page=${currentPage}&ids=${selectedIds.join(',')}`);
+    setSelectedCharacterId(null);
+  };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+  const handleSelectionChange = (ids: string[]) => {
+    setSelectedIds(ids);
+    router.push(`/search?page=${currentPage}&ids=${ids.join(',')}`);
   };
 
   return (
@@ -26,11 +55,26 @@ const SearchComponent: React.FC = () => {
         />
         <button type="submit">Search</button>
       </form>
-      {isLoading && <Loading />}
-      {error && <p className="error-message">{error}</p>}
-      {!isLoading && searchResults.length > 0 && (
-        <SearchResult results={searchResults} />
-      )}
+      <div className="left-panel">
+        {isLoading && <Loading />}
+        {error && <p className="error-message">{error}</p>}
+        {!isLoading && searchResults.length > 0 && (
+          <SearchResult
+            results={searchResults}
+            currentPage={currentPage}
+            onCharacterSelect={handleCharacterSelect}
+            onPageChange={handlePageChange}
+            onSelectionChange={handleSelectionChange}
+            selectedIds={selectedIds}
+          />
+        )}
+        {selectedCharacterId && (
+          <DetailsComponent
+            id={selectedCharacterId}
+            onClose={handleCloseDetails}
+          />
+        )}
+      </div>
     </div>
   );
 };

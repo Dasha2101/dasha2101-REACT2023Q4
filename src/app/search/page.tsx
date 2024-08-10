@@ -1,6 +1,7 @@
 import React from 'react';
 import ErrorBoundary from '../../components/bundler/Bundler';
 import SearchComponent from '../../components/serachContainer/SearhContainer';
+import ThemeWrapper from '../../components/themedWrapper/ThemedWrapper';
 import '../globals.css';
 
 const SearchPage = () => {
@@ -9,10 +10,12 @@ const SearchPage = () => {
       hasError={false}
       errorMessage={'Произошла ошибка на этой странице'}
     >
-      <div>
-        <h1>Rick and Morty</h1>
-        <SearchComponent />
-      </div>
+      <ThemeWrapper>
+        <div>
+          <h1>Rick and Morty</h1>
+          <SearchComponent />
+        </div>
+      </ThemeWrapper>
     </ErrorBoundary>
   );
 };
