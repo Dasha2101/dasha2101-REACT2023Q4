@@ -6,8 +6,8 @@ export interface SearchResultProps {
 
 export interface SearchResultProps {
   results: SearchDataType[];
-  onItemClick: (id: string, page: number) => void;
-  currentPage: number;
-  selectedIds: string[];
-  onSelectionChange: (selectedIds: string[]) => void;
+  // onItemClick: (id: string) => void;
+  // currentPage: number;
+  // selectedIds: string[];
+  // onSelectionChange: (selectedIds: string[]) => void;
 }

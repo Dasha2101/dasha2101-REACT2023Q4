@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { RickAndMortyAPI } from '../services/api';
 import { SearchDataType } from '../services/types';
@@ -7,7 +8,6 @@ const useSearchAndFetch = () => {
   const [searchResults, setSearchResults] = useState<SearchDataType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showResults, setShowResults] = useState(false);
   const [lastSearchQuery, setLastSearchQuery] = useLocalStorage(
     'lastSearchQuery',
     ''
@@ -17,13 +17,12 @@ const useSearchAndFetch = () => {
     setSearchResults(results);
     setTimeout(() => {
       setIsLoading(false);
-      setShowResults(true);
     }, 1000);
   };
 
   const fetchAllResults = useCallback(async () => {
     setIsLoading(true);
-    setShowResults(false);
+    setError(null);
     try {
       const results = await RickAndMortyAPI.fetchAllResults();
       updateSearchResults(results);
@@ -34,30 +33,28 @@ const useSearchAndFetch = () => {
         setError('Unknown error occurred');
       }
       setIsLoading(false);
-      setShowResults(false);
     }
   }, []);
 
   const handleSearch = useCallback(
     async (query: string) => {
       setIsLoading(true);
-      setShowResults(false);
+      setError(null);
       setLastSearchQuery(query);
       try {
         const results = await RickAndMortyAPI.fetchSearchResults(query);
         updateSearchResults(results);
-        setLastSearchQuery(query);
       } catch (error) {
         if (error instanceof Error) {
           setError(`Error loading data: ${error.message}`);
         } else {
           setError('Unknown error occurred');
         }
+        setSearchResults([]);
         setIsLoading(false);
-        setShowResults(false);
       }
     },
-    [setIsLoading, setShowResults, setLastSearchQuery]
+    [setLastSearchQuery]
   );
 
   useEffect(() => {
@@ -73,7 +70,6 @@ const useSearchAndFetch = () => {
     setSearchResults([]);
     setTimeout(() => {
       setIsLoading(false);
-      setShowResults(false);
       setError(null);
     }, 1000);
   };
@@ -82,7 +78,6 @@ const useSearchAndFetch = () => {
     isLoading,
     error,
     searchResults,
-    showResults,
     fetchAllResults,
     handleSearch,
     handleResetSearch,
