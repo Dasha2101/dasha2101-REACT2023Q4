@@ -1,5 +1,9 @@
 export interface SearchFormProps {
   onSearch: (query: string) => void;
-  resetSearch: () => void;
   onReset?: () => void;
+}
+
+export interface UseSearchQueryServerProps {
+  query?: string;
+  onSearch: (query: string) => void;
 }

@@ -1,0 +1,38 @@
+.popup {
+  background-color: #39ff14;
+  color: #202020;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-family: 'Get Schwifty', sans-serif;
+  text-align: center;
+  border: 2px solid #8a2be2;
+  margin-top: 20px;
+  max-height: 8rem;
+}
+
+.text {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+#popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#button-popup {
+  background-color: #8a2be2;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Get Schwifty', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+#button-popup:hover {
+  background-color: #7b1fa2;
+}

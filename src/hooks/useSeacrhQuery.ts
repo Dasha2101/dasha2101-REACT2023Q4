@@ -1,15 +1,8 @@
-import { useEffect } from 'react';
+'use client';
 import useLocalStorage from './useLocalStorage';
 
 const useSearchQuery = (initialQuery: string = 'lastSearchQuery') => {
-  const [searchQuery, setSearchQuery] = useLocalStorage(initialQuery);
-
-  useEffect(() => {
-    const savedQuery = localStorage.getItem(initialQuery);
-    if (savedQuery) {
-      setSearchQuery(savedQuery);
-    }
-  }, [initialQuery, setSearchQuery]);
+  const [searchQuery, setSearchQuery] = useLocalStorage(initialQuery, '');
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -25,7 +18,6 @@ const useSearchQuery = (initialQuery: string = 'lastSearchQuery') => {
 
   const resetSearchQuery = () => {
     setSearchQuery('');
-    localStorage.removeItem(initialQuery);
   };
 
   return {

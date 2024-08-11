@@ -1,35 +1,31 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import {
-  addCharacter,
-  removeCharacter,
-  clearAllCharacters,
-} from '../redux/characterSelSlice';
+import { useState, useEffect } from 'react';
 
-const useCharacterSelection = () => {
-  const dispatch = useDispatch();
-  const characters = useSelector(
-    (state: RootState) => state.characterSelection.characters
-  );
+const useCharacterSelection = (
+  initialSelectedIds: string[],
+  onSelectionChange: (ids: string[]) => void
+) => {
+  const [selectedIds, setSelectedIds] = useState<string[]>(initialSelectedIds);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const id = Number(e.target.value);
-    if (e.target.checked) {
-      dispatch(addCharacter(id));
-    } else {
-      dispatch(removeCharacter(id));
-    }
+  useEffect(() => {
+    onSelectionChange(selectedIds);
+  }, [selectedIds, onSelectionChange]);
+
+  const handleChange = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((selectedId) => selectedId !== id)
+        : [...prev, id]
+    );
   };
 
   const handleClearAll = () => {
-    dispatch(clearAllCharacters());
+    setSelectedIds([]);
   };
 
   return {
-    characters,
+    selectedIds,
     handleChange,
     handleClearAll,
-    selectedCount: characters.length,
   };
 };
 

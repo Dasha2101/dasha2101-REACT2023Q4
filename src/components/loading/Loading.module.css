@@ -1,0 +1,31 @@
+.loading {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #17f21b;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-theme .loading {
+  border: 12px solid #333;
+  border-top: 12px solid #00ff00;
+}
+
+.light-theme .loading {
+  border: 12px solid #ddd;
+  border-top: 12px solid #00ff00;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,6 +1,13 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Pagination from '../components/pagination/Pagination';
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
 
 describe('Pagination Component', () => {
   it('call onChangePage', () => {
@@ -16,16 +23,16 @@ describe('Pagination Component', () => {
       />
     );
 
-    const pageLinks = screen.getAllByRole('link');
-    expect(pageLinks).toHaveLength(totalPages);
+    const pageButtons = screen.getAllByRole('button');
+    expect(pageButtons).toHaveLength(totalPages);
 
-    fireEvent.click(pageLinks[2]);
-    expect(onChangePage).toHaveBeenCalledWith(3);
+    fireEvent.click(pageButtons[1]);
+    expect(onChangePage).toHaveBeenCalledWith(2);
   });
 
-  it('render the correct URL', () => {
+  it('highlights current page btn', () => {
     const onChangePage = vi.fn();
-    const currentPage = 1;
+    const currentPage = 3;
     const totalPages = 5;
 
     render(
@@ -36,9 +43,17 @@ describe('Pagination Component', () => {
       />
     );
 
-    const pageLinks = screen.getAllByRole('link');
-    pageLinks.forEach((link, index) => {
-      expect(link.getAttribute('href')).toBe(`/search/${index + 1}`);
+    const pageButtons = screen.getAllByRole('button');
+    const activeButton = pageButtons.find(
+      (button) => button.textContent === '3'
+    );
+
+    expect(activeButton?.getAttribute('class')).toContain('active');
+
+    pageButtons.forEach((button) => {
+      if (button.textContent !== '3') {
+        expect(button.getAttribute('class')).not.toContain('active');
+      }
     });
   });
 });

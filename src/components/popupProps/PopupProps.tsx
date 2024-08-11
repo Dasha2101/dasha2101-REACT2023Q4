@@ -1,5 +1,5 @@
 import React from 'react';
-import './PopupProps.css';
+import styles from './PopupProps.module.css';
 
 interface PopupProps {
   isVisible: boolean;
@@ -17,11 +17,17 @@ const Popup: React.FC<PopupProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className="popup" data-testid="popup">
-      <p>{`Choose ${selectedCount} element${selectedCount > 1 ? 's' : ''}`}</p>
-      <div className="popup-buttons">
-        <button onClick={onClearAll}>Delete all</button>
-        <button onClick={onDownload}>Download</button>
+    <div className={styles['popup']} data-testid="popup">
+      <p
+        className={styles['text']}
+      >{`Choose ${selectedCount} element${selectedCount > 1 ? 's' : ''}`}</p>
+      <div id="popup-buttons">
+        <button id="button-popup" onClick={onClearAll}>
+          Delete all
+        </button>
+        <button id="button-popup" onClick={onDownload}>
+          Download
+        </button>
       </div>
     </div>
   );

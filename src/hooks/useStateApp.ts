@@ -1,8 +1,6 @@
+'use client';
 import { useState, useEffect, useCallback } from 'react';
-import {
-  useFetchSearchResultsQuery,
-  useFetchAllResultsQuery,
-} from '../services/rtkApi';
+import { RickAndMortyAPI } from '../services/api';
 import { SearchDataType } from '../services/types';
 import useLocalStorage from './useLocalStorage';
 
@@ -10,76 +8,53 @@ const useSearchAndFetch = () => {
   const [searchResults, setSearchResults] = useState<SearchDataType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showResults, setShowResults] = useState(false);
   const [lastSearchQuery, setLastSearchQuery] = useLocalStorage(
     'lastSearchQuery',
     ''
   );
-  const {
-    data: allResults,
-    error: errorAllResults,
-    isFetching: isFetchingAllResults,
-  } = useFetchAllResultsQuery(1);
-  const {
-    data: searchResultsData,
-    error: errorSearchResults,
-    isFetching: isFetchingSearchResults,
-  } = useFetchSearchResultsQuery({ query: lastSearchQuery, page: 1 });
 
   const updateSearchResults = (results: SearchDataType[]) => {
     setSearchResults(results);
     setTimeout(() => {
       setIsLoading(false);
-      setShowResults(true);
-      setError(null);
     }, 1000);
   };
 
-  const updateState = () => {
+  const fetchAllResults = useCallback(async () => {
     setIsLoading(true);
-    setShowResults(false);
     setError(null);
-  };
-
-  const fetchAllResults = useCallback(() => {
-    updateState();
-    if (!isFetchingAllResults) {
-      if (errorAllResults) {
-        setError('Error loading data');
-        setSearchResults([]);
-        setShowResults(false);
-      } else if (allResults) {
-        updateSearchResults(allResults.results);
+    try {
+      const results = await RickAndMortyAPI.fetchAllResults();
+      updateSearchResults(results);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(`Error loading data: ${error.message}`);
+      } else {
+        setError('Unknown error occurred');
       }
+      setIsLoading(false);
     }
-  }, [allResults, errorAllResults, isFetchingAllResults]);
+  }, []);
 
   const handleSearch = useCallback(
-    (query: string) => {
+    async (query: string) => {
+      setIsLoading(true);
+      setError(null);
       setLastSearchQuery(query);
-      updateState();
-      if (!isFetchingSearchResults) {
-        if (errorSearchResults) {
-          setError('Error performing search');
-          setSearchResults([]);
-          setShowResults(false);
-        } else if (searchResultsData) {
-          if (searchResultsData.results.length === 0) {
-            setError('No results found');
-            setShowResults(false);
-            setSearchResults([]);
-          } else {
-            updateSearchResults(searchResultsData.results);
-          }
+      try {
+        const results = await RickAndMortyAPI.fetchSearchResults(query);
+        updateSearchResults(results);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(`Error loading data: ${error.message}`);
+        } else {
+          setError('Unknown error occurred');
         }
+        setSearchResults([]);
+        setIsLoading(false);
       }
     },
-    [
-      searchResultsData,
-      errorSearchResults,
-      isFetchingSearchResults,
-      setLastSearchQuery,
-    ]
+    [setLastSearchQuery]
   );
 
   useEffect(() => {
@@ -95,7 +70,6 @@ const useSearchAndFetch = () => {
     setSearchResults([]);
     setTimeout(() => {
       setIsLoading(false);
-      setShowResults(false);
       setError(null);
     }, 1000);
   };
@@ -104,11 +78,11 @@ const useSearchAndFetch = () => {
     isLoading,
     error,
     searchResults,
-    showResults,
     fetchAllResults,
     handleSearch,
     handleResetSearch,
     lastSearchQuery,
   };
 };
+
 export default useSearchAndFetch;

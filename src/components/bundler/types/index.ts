@@ -1,10 +1,8 @@
-import { ReactNode } from 'react';
-
 export interface ErrorBoundaryProps {
-  children: ReactNode;
   hasError: boolean;
   errorMessage: string;
-  onReset: () => void;
+  onReset?: () => void;
+  children: React.ReactNode;
 }
 
 export interface ErrorBoundaryState {
