@@ -20,6 +20,7 @@ export default function RootLayout({
             typeof metadata.description === 'string' ? metadata.description : ''
           }
         />
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>

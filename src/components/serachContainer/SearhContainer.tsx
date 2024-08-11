@@ -12,12 +12,12 @@ import './SearchContainer.css';
 const SearchComponent: React.FC = () => {
   const { searchQuery, handleSearchChange, handleSearchSubmit } =
     useSearchQuery();
+  const params = useSearchParams();
   const { searchResults, isLoading, error, handleSearch } = useSearchAndFetch();
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(
-    null
+    params?.get('did')
   );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const params = useSearchParams();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(
     parseInt(params?.get('page') ?? '1', 10)
@@ -37,6 +37,8 @@ const SearchComponent: React.FC = () => {
     setSelectedCharacterId(null);
   };
   const handlePageChange = (page: number) => {
+    setSelectedCharacterId(null);
+    router.push(`/search?page=${page}&ids=${selectedIds.join(',')}`);
     setCurrentPage(page);
   };
   const handleSelectionChange = (ids: string[]) => {
