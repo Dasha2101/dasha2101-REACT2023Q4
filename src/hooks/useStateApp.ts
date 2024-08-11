@@ -29,8 +29,6 @@ const useSearchAndFetch = () => {
     } catch (error) {
       if (error instanceof Error) {
         setError(`Error loading data: ${error.message}`);
-      } else {
-        setError('Unknown error occurred');
       }
       setIsLoading(false);
     }
@@ -44,12 +42,9 @@ const useSearchAndFetch = () => {
       try {
         const results = await RickAndMortyAPI.fetchSearchResults(query);
         updateSearchResults(results);
-        // setLastSearchQuery(query);
       } catch (error) {
         if (error instanceof Error) {
           setError(`Error loading data: ${error.message}`);
-        } else {
-          setError('Unknown error occurred');
         }
         setSearchResults([]);
         setIsLoading(false);

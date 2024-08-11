@@ -48,7 +48,10 @@ const SearchComponent: React.FC = () => {
 
   return (
     <div>
-      <form onSubmit={(e) => handleSearchSubmit(e, onSearch)}>
+      <form
+        onSubmit={(e) => handleSearchSubmit(e, onSearch)}
+        data-testid="search-form"
+      >
         <input
           type="text"
           value={searchQuery}
@@ -68,6 +71,7 @@ const SearchComponent: React.FC = () => {
             onPageChange={handlePageChange}
             onSelectionChange={handleSelectionChange}
             selectedIds={selectedIds}
+            data-testid="result-item"
           />
         )}
         {selectedCharacterId && (

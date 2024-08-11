@@ -1,9 +1,7 @@
 import { metadata } from './config';
-import { Inter } from 'next/font/google';
+import React from 'react';
 
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
@@ -15,14 +13,15 @@ export default function RootLayout({
           {typeof metadata.title === 'string' ? metadata.title : ''}
         </title>
         <meta
+          data-testid="meta-description"
           name="description"
           content={
             typeof metadata.description === 'string' ? metadata.description : ''
           }
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" data-testid="favicon-link" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

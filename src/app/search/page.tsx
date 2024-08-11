@@ -6,10 +6,7 @@ import '../globals.css';
 
 const SearchPage = () => {
   return (
-    <ErrorBoundary
-      hasError={false}
-      errorMessage={'Произошла ошибка на этой странице'}
-    >
+    <ErrorBoundary hasError={false} errorMessage={'Error on this page'}>
       <ThemeWrapper>
         <div>
           <h1>Rick and Morty</h1>

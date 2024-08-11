@@ -46,7 +46,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
   const selectedCount = localSelectedIds.length;
 
   return (
-    <div className="search-res">
+    <div className="search-res" data-testid="result-item">
       <div className="panel">
         {isLoading ? (
           <Loading />
@@ -56,7 +56,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
               key={result.id}
               className="result-item"
               onClick={() => onCharacterSelect(String(result.id))}
-              data-testid="result-item"
+              data-testid="character-item"
             >
               <input
                 type="checkbox"

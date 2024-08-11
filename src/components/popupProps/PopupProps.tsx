@@ -1,7 +1,7 @@
 import React from 'react';
 import './PopupProps.css';
 
-interface PopupProps {
+export interface PopupProps {
   isVisible: boolean;
   selectedCount: number;
   onClearAll: () => void;
