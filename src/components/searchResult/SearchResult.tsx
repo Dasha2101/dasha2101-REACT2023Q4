@@ -9,7 +9,7 @@ import Popup from '../popupProps/PopupProps';
 import Loading from '../loading/Loading';
 
 import Image from 'next/image';
-import './SearchResult.css';
+import styles from './SearchResult.module.css';
 
 const SearchResult: React.FC<SearchResultProps> = ({
   results,
@@ -46,15 +46,15 @@ const SearchResult: React.FC<SearchResultProps> = ({
   const selectedCount = localSelectedIds.length;
 
   return (
-    <div className="search-res">
-      <div className="panel">
+    <div className={styles['search-res']}>
+      <div className={styles['panel']}>
         {isLoading ? (
           <Loading />
         ) : paginatedResults.length > 0 ? (
           paginatedResults.map((result: SearchDataType) => (
             <div
               key={result.id}
-              className="result-item"
+              className={styles['result-item']}
               onClick={() => onCharacterSelect(String(result.id))}
               data-testid="result-item"
             >

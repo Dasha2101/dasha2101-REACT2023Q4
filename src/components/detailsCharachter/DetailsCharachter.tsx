@@ -3,7 +3,7 @@ import Loading from '../loading/Loading';
 import Image from 'next/image';
 import useCharacterDetails from '../../hooks/useCharacterDetails';
 import { UseCharacterDetailsProps } from './types';
-import './DetailsCharachter.css';
+import styles from './DetailsCharachter.module.css';
 
 const DetailsComponent: React.FC<UseCharacterDetailsProps> = ({
   id,
@@ -23,9 +23,9 @@ const DetailsComponent: React.FC<UseCharacterDetailsProps> = ({
   }
 
   return (
-    <div className="details-panel">
+    <div className={styles['details-panel']}>
       <h2>Character Details</h2>
-      <div className="details-content">
+      <div className={styles['details-content']}>
         <Image
           src={character.image}
           alt={character.name}

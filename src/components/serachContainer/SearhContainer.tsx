@@ -7,17 +7,17 @@ import DetailsComponent from '../detailsCharachter/DetailsCharachter';
 import Loading from '../loading/Loading';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import './SearchContainer.css';
+import styles from './SearchContainer.module.css';
 
 const SearchComponent: React.FC = () => {
   const { searchQuery, handleSearchChange, handleSearchSubmit } =
     useSearchQuery();
+  const params = useSearchParams();
   const { searchResults, isLoading, error, handleSearch } = useSearchAndFetch();
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(
-    null
+    params?.get('did')
   );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const params = useSearchParams();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(
     parseInt(params?.get('page') ?? '1', 10)
@@ -25,6 +25,7 @@ const SearchComponent: React.FC = () => {
 
   const onSearch = async (query: string) => {
     handleSearch(query);
+    setSelectedCharacterId(null);
   };
   const handleCharacterSelect = (id: string) => {
     setSelectedCharacterId(id);
@@ -37,21 +38,27 @@ const SearchComponent: React.FC = () => {
     setSelectedCharacterId(null);
   };
   const handlePageChange = (page: number) => {
+    setSelectedCharacterId(null);
+    router.push(`/search?page=${page}&ids=${selectedIds.join(',')}`);
     setCurrentPage(page);
   };
   const handleSelectionChange = (ids: string[]) => {
     setSelectedIds(ids);
-    router.push(`/search?page=${currentPage}&ids=${ids.join(',')}`);
+    console.log(ids);
   };
 
   return (
     <div>
-      <form onSubmit={(e) => handleSearchSubmit(e, onSearch)}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => handleSearchSubmit(e, onSearch)}
+      >
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder="Enter your request"
+          className={styles.input}
         />
         <button type="submit">Search</button>
       </form>

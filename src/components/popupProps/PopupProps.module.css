@@ -8,20 +8,20 @@
   text-align: center;
   border: 2px solid #8a2be2;
   margin-top: 20px;
-  max-height: 5rem;
+  max-height: 8rem;
 }
 
-.popup p {
+.text {
   margin: 0 0 10px;
   font-size: 18px;
 }
 
-.popup-buttons {
+#popup-buttons {
   display: flex;
   justify-content: space-between;
 }
 
-.popup-buttons button {
+#button-popup {
   background-color: #8a2be2;
   color: #fff;
   border: none;
@@ -33,6 +33,6 @@
   transition: background-color 0.3s ease;
 }
 
-.popup-buttons button:hover {
+#button-popup:hover {
   background-color: #7b1fa2;
 }

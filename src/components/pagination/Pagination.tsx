@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { PaginationProps } from './types';
-import './Pagination.css';
+import styles from './Pagination.module.css';
 
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
@@ -19,7 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="pagination">
+    <div className={styles.pagination}>
       {pages.map((page) => (
         <button
           key={page}

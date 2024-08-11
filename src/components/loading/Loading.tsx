@@ -1,10 +1,10 @@
 import React from 'react';
-import './Loading.css';
+import styles from './Loading.module.css';
 
 const Loading: React.FC = () => {
   return (
-    <div className="loading" data-testid="loading-indicator">
-      <div className="loader"></div>
+    <div className={styles.loading} data-testid="loading-indicator">
+      <div className={styles.loader}></div>
     </div>
   );
 };
