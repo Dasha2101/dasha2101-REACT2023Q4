@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { RickAndMortyAPI } from '../services/api';
 
 const mockFetch = vi.fn();
-global.fetch = mockFetch as unknown as typeof fetch;
+global.fetch = mockFetch as typeof fetch;
 
 describe('RickAndMortyAPI', () => {
   const characterMock = {
