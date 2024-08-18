@@ -1,0 +1,15 @@
+.image-form-container {
+  margin-bottom: 20px;
+}
+
+.image-form-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.image-form-container input[type='file'] {
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
