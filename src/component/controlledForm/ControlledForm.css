@@ -1,0 +1,105 @@
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.form-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-container a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.form-container button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  max-width: 15rem;
+  margin: 15px 0 0 95px;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+.submit:disabled {
+  background-color: #c0c0c0;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container div {
+  margin-bottom: 15px;
+}
+
+.form-container label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-container .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container .input-wrapper input,
+.form-container .input-wrapper select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-container .input-wrapper input[type='checkbox'] {
+  width: auto;
+  margin-right: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
